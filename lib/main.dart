@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'dart:async';
+
+import 'package:socket_io_client/socket_io_client.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,12 +33,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final TextEditingController _controller = TextEditingController();
+  final StreamSocket streamSocket = StreamSocket();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  void connectAndListen(String roomName) {
+    IO.Socket socket = IO.io('http://localhost:3000',
+        OptionBuilder().setTransports(['websocket']).build());
+
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('join', roomName); // Use the 'joinRoom' event or similar based on your server-side implementation
     });
+
+    socket.on('roomData', (data) => streamSocket.addResponse(data.toString()));
+    socket.onDisconnect((_) => print('disconnect'));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    streamSocket.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,25 +63,45 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: 'Room Name',
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () => connectAndListen(_controller.text),
+            child: Text('Join Room'),
+          ),
+          StreamBuilder(
+            stream: streamSocket.getResponse,
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
+              }
+              return Container();
+            },
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class StreamSocket {
+  final _socketResponse = StreamController<String>();
+
+  void Function(String) get addResponse => _socketResponse.sink.add;
+
+  Stream<String> get getResponse => _socketResponse.stream;
+
+  void dispose() {
+    _socketResponse.close();
   }
 }
