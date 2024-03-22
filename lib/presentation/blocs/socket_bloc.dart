@@ -11,6 +11,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnJoined>(_onJoined);
    on<SocketOnConnect>(_onConnect);
    on<SocketOnDisconnect>(_onDisconnected);
+
+   add(SocketOnConnect());
 }
 
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
@@ -29,6 +31,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onJoined(SocketOnJoined event, Emitter<SocketState> emit) async {
     try {
       socket?.emit('join', event.room);
+      _setupSocketListeners();
       emit(SocketJoined(event.room));
       print('join');
     } catch (e) {
@@ -46,10 +49,25 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
+   void _setupSocketListeners() {
+     socket?.on('roomData', (data) {
+       // print(data);
+       add(SocketOnMessageReceived(data));
+     });
+
+     // You can listen to more events here
+   }
+
 
   @override
   Future<void> close() {
     socket?.dispose();
     return super.close();
   }
+}
+
+class SocketOnMessageReceived extends SocketEvent {
+  final String message;
+
+  SocketOnMessageReceived(this.message);
 }
