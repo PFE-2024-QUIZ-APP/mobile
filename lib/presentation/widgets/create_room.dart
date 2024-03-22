@@ -6,16 +6,17 @@ import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
 import 'button_widget.dart';
 
-class CreateUser extends StatelessWidget {
-  final TextEditingController _userNameController = TextEditingController();
+class CreateRoom extends StatelessWidget {
+  final TextEditingController _roomNameController = TextEditingController();
 
- CreateUser({super.key});
+  CreateRoom({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketBloc,SocketState>(
-      builder: (context, state) {
-        return Stack(
+        builder: (context, state) {
+          if(state is SocketCreationRoom){
+            return Stack(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -28,27 +29,15 @@ class CreateUser extends StatelessWidget {
                         Column(
                           children: [
                             ButtonFriizz(
-                              text:'Créez un salon',
+                              text: state.typeCreation == "create" ? 'Créez le salon' : 'Rejoindre',
                               primary: true,
                               icon: play,
                               onClick: () {
-                                if (state is! SocketCreationRoom) {
+                                if (state is! SocketJoined) {
                                   BlocProvider.of<SocketBloc>(context).add(
-                                      SocketOnCreation("create", _userNameController.text));
+                                      SocketOnJoined(_roomNameController.text, state.userName, "avatar"));
                                 }
                               },
-                            ),
-                            SizedBox(height: 20),
-                            ButtonFriizz(
-                                text:'Rejoindre',
-                                primary: false,
-                                icon: play,
-                                onClick: () {
-                                  if (state is! SocketCreationRoom) {
-                                    BlocProvider.of<SocketBloc>(context).add(
-                                        SocketOnCreation("join", _userNameController.text));
-                                  }
-                                }
                             ),
                           ],
                         ),
@@ -69,7 +58,7 @@ class CreateUser extends StatelessWidget {
                         padding: const EdgeInsets.all(24),
                         child: Column(
                           children: [
-                            Text('Choisis un AVATAR et ton PSEUDO', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
+                            Text('Entre le numéro de ta room', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -85,9 +74,9 @@ class CreateUser extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: TextField(
-                                      controller: _userNameController,
+                                      controller: _roomNameController,
                                       decoration: InputDecoration(
-                                        hintText: 'Entre un pseudo',
+                                        hintText: 'Entre un nom de room',
                                         border: InputBorder.none,
                                         contentPadding: const EdgeInsets.all(0),
                                         hintStyle: TextGlobalStyle.buttonStyleWhite,
@@ -106,7 +95,11 @@ class CreateUser extends StatelessWidget {
                 ),
               ],
             );
-      }
+          }
+          else{
+            return Text('');
+          }
+        }
     );
   }
 }

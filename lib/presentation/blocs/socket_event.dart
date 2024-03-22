@@ -15,6 +15,12 @@ class SocketOnJoined extends SocketEvent {
   SocketOnJoined(this.roomName, this.userName, this.avatar);
 }
 
+class SocketOnCreation extends SocketEvent {
+  final String typeCreation;
+  final String userName;
+  SocketOnCreation(this.typeCreation, this.userName);
+}
+
 class SocketOnConnect extends SocketEvent {}
 
 class SocketOnDisconnect extends SocketEvent {}

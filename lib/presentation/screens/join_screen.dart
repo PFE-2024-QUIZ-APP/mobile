@@ -1,6 +1,7 @@
 // socket_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzapppfe/presentation/widgets/create_room.dart';
 import 'package:quizzapppfe/presentation/widgets/create_user.dart';
 
 import '../../constants.dart';
@@ -48,77 +49,11 @@ class JoinScreen extends StatelessWidget {
               ]);
             } else if (state is SocketError) {
               return Text('Socket error: ${state.error}');
+            }else if (state is SocketCreationRoom) {
+              return SafeArea(child: CreateRoom());
             } else {
               return SafeArea(
-                child: Stack(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(logo),
-                            Column(
-                              children: [
-                                ButtonFriizz(
-                                  text:'Créez un salon',
-                                  primary: true,
-                                  icon: play,
-                                  onClick: () {
-                                    // BlocProvider.of<SocketBloc>(context).add(
-                                    //   SocketOnCreateRoom(
-                                    //     userName: _userNameController.text,
-                                    //   ),
-                                    // );
-                                  },
-                                ),
-                                SizedBox(height: 20),
-                                ButtonFriizz(
-                                  text:'Rejoindre',
-                                  primary: false,
-                                  icon: play,
-                                  onClick: () {
-                                    // BlocProvider.of<SocketBloc>(context).add(
-                                    //   SocketOnJoinRoom(
-                                    //     userName: _userNameController.text,
-                                    //     roomName: _roomNameController.text,
-                                    //   ),
-                                    // );
-                                  }
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: blue,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              children: [
-                                Text('Choisis un AVATAR et ton PSEUDO', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
-                                CreateUser(
-                                    userNameController: _userNameController,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                child: CreateUser()
               );
             }
           },

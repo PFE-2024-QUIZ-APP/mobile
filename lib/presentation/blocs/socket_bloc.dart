@@ -10,6 +10,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   SocketBloc() : super(SocketInitial()) {
    on<SocketOnJoined>(_onJoined);
    on<SocketOnConnect>(_onConnect);
+   on<SocketOnCreation>(_onCreation);
    on<SocketOnDisconnect>(_onDisconnected);
 
    add(SocketOnConnect());
@@ -18,7 +19,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
     try {
       emit(SocketConnecting());
-      socket = IO.io('https://socket-1av7.onrender.com', <String, dynamic>{
+      socket = IO.io('http://localhost:3000', <String, dynamic>{
         'transports': ['websocket'],
       });
       emit(SocketConnected());
@@ -34,6 +35,15 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       socket?.emit('join', {event.roomName, event.userName, event.avatar});
       _setupSocketListeners();
       print('join');
+    } catch (e) {
+      emit(SocketError(e.toString()));
+    }
+  }
+
+  void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
+    try {
+      emit(SocketCreationRoom(event.typeCreation, event.userName));
+      print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
     }
