@@ -21,11 +21,10 @@ class SocketConnected extends SocketState {
 
 class SocketJoined extends SocketState {
   final String roomName;
-  final String userName;
-  final String avatar;
-  SocketJoined(this.roomName, this.userName, this.avatar);
+  final List users;
+  SocketJoined(this.roomName, this.users);
   @override
-  List<Object> get props => [roomName, userName, avatar];
+  List<Object> get props => [roomName, users];
 }
 
 class SocketDisconnected extends SocketState {

@@ -11,6 +11,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnJoined>(_onJoined);
    on<SocketOnConnect>(_onConnect);
    on<SocketOnDisconnect>(_onDisconnected);
+
+   add(SocketOnConnect());
 }
 
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
@@ -28,10 +30,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onJoined(SocketOnJoined event, Emitter<SocketState> emit) async {
     try {
-     // print("ABDE ${event.avatar}");
-      //print("ABDE ${event.room.roomName}");
-      socket?.emit('join', event);
-      emit(SocketJoined(event.roomName, event.userName, event.avatar));
+      print(event.userName);
+      socket?.emit('join', {event.roomName, event.userName, event.avatar});
+      _setupSocketListeners();
       print('join');
     } catch (e) {
       emit(SocketError(e.toString()));
@@ -48,10 +49,26 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
+   void _setupSocketListeners() {
+     socket?.on('roomData', (data) {
+       print(data);
+       emit(SocketJoined(data["roomId"], data["players"]));
+       // add(SocketOnMessageReceived(data));
+     });
+
+     // You can listen to more events here
+   }
+
 
   @override
   Future<void> close() {
     socket?.dispose();
     return super.close();
   }
+}
+
+class SocketOnMessageReceived extends SocketEvent {
+  final List<dynamic> message;
+
+  SocketOnMessageReceived(this.message);
 }
