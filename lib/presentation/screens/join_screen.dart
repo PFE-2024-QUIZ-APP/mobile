@@ -6,6 +6,7 @@ import 'package:quizzapppfe/presentation/widgets/create_user.dart';
 import '../../constants.dart';
 import '../blocs/socket_bloc.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/timer_widget.dart';
 
 class JoinScreen extends StatelessWidget {
   JoinScreen({super.key});
