@@ -22,7 +22,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         'transports': ['websocket'],
       });
       emit(SocketConnected());
-      print('connect');
+      print('connect on localhost:3000');
     } catch (e) {
       emit(SocketError(e.toString()));
     }
@@ -30,9 +30,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onJoined(SocketOnJoined event, Emitter<SocketState> emit) async {
     try {
-      socket?.emit('join', event.room);
+      print(event.userName);
+      socket?.emit('join', {event.roomName, event.userName, event.avatar});
       _setupSocketListeners();
-      emit(SocketJoined(event.room));
       print('join');
     } catch (e) {
       emit(SocketError(e.toString()));
@@ -51,8 +51,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
    void _setupSocketListeners() {
      socket?.on('roomData', (data) {
-       // print(data);
-       add(SocketOnMessageReceived(data));
+       print(data);
+       emit(SocketJoined(data["roomId"], data["players"]));
+       // add(SocketOnMessageReceived(data));
      });
 
      // You can listen to more events here
@@ -67,7 +68,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 }
 
 class SocketOnMessageReceived extends SocketEvent {
-  final String message;
+  final List<dynamic> message;
 
   SocketOnMessageReceived(this.message);
 }

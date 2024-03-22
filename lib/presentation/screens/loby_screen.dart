@@ -1,7 +1,7 @@
 // socket_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quizzapppfe/presentation/widgets/join_widget.dart';
+import 'package:quizzapppfe/presentation/widgets/create_user.dart';
 
 import '../blocs/socket_bloc.dart';
 
