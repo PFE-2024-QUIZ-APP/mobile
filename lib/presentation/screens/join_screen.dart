@@ -62,9 +62,32 @@ class JoinScreen extends StatelessWidget {
                             Image.asset(logo),
                             Column(
                               children: [
-                                ButtonFriizz(text:'Créez un salon', primary: true,),
+                                ButtonFriizz(
+                                  text:'Créez un salon',
+                                  primary: true,
+                                  icon: play,
+                                  onClick: () {
+                                    // BlocProvider.of<SocketBloc>(context).add(
+                                    //   SocketOnCreateRoom(
+                                    //     userName: _userNameController.text,
+                                    //   ),
+                                    // );
+                                  },
+                                ),
                                 SizedBox(height: 20),
-                                ButtonFriizz(text:'Rejoindre', primary: false,),
+                                ButtonFriizz(
+                                  text:'Rejoindre',
+                                  primary: false,
+                                  icon: play,
+                                  onClick: () {
+                                    // BlocProvider.of<SocketBloc>(context).add(
+                                    //   SocketOnJoinRoom(
+                                    //     userName: _userNameController.text,
+                                    //     roomName: _roomNameController.text,
+                                    //   ),
+                                    // );
+                                  }
+                                ),
                               ],
                             ),
                           ],

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quizzapppfe/constants.dart';
 
 class ButtonFriizz extends StatelessWidget {
   final String text; // text to display on the button
   final bool primary; // primary color of the button if true = white else purple
+  final Function onClick;
+  final String? icon;
 
-  const ButtonFriizz({super.key, required this.text, required this.primary, });
+  const ButtonFriizz({super.key, required this.text, required this.primary, required this.onClick, this.icon });
 
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        width: 200,
+        width: 220,
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: primary ? Colors.white : purple,
@@ -28,10 +31,19 @@ class ButtonFriizz extends StatelessWidget {
             ),
           ],
         ),
-        child: Text(text, style: primary ? TextGlobalStyle.buttonStylePurple : TextGlobalStyle.buttonStyleWhite , textAlign: TextAlign.center,),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            icon != null ? SvgPicture.asset(icon!, colorFilter: ColorFilter.mode(primary ? purple : Colors.white, BlendMode.srcIn),): SizedBox(),
+            icon != null ? SizedBox(width: 10,) : SizedBox(),
+            Text(text, style: primary ? TextGlobalStyle.buttonStylePurple : TextGlobalStyle.buttonStyleWhite , textAlign: TextAlign.center,),
+          ],
+        ),
       ),
       onTap: () {
         HapticFeedback.lightImpact();
+        onClick();
       },
     );
   }
