@@ -18,7 +18,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
     try {
       emit(SocketConnecting());
-      socket = IO.io('http://localhost:3000', <String, dynamic>{
+      socket = IO.io('https://socket-1av7.onrender.com', <String, dynamic>{
         'transports': ['websocket'],
       });
       emit(SocketConnected());

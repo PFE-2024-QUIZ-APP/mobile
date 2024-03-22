@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 String logo = 'lib/assets/images/logo.png';
 
 
+// ICONS
+String play = 'lib/assets/icons/play.svg';
+
+
 // GRADIENTS ET COLORS
 const LinearGradient BackgroundGradient = LinearGradient(
   begin: Alignment.topLeft,
