@@ -8,7 +8,8 @@ import '../blocs/socket_bloc.dart';
 class JoinScreen extends StatelessWidget {
   JoinScreen({super.key});
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _roomNameController = TextEditingController();
 
   get state => null;
 
@@ -24,31 +25,42 @@ class JoinScreen extends StatelessWidget {
           children: <Widget>[
             BlocBuilder<SocketBloc, SocketState>(
               builder: (context, state) {
-                if (state is SocketConnected) {
-                  return const Text('Socket connected');
-                } else if (state is SocketJoined) {
-                  return Text('Joined room ${state.room}');
+                if (state is SocketJoined) {
+                  return Column(children: [
+                    Text('Room Name: ${state.roomName}'),
+                    Text('User Name: ${state.userName}'),
+                    Text('Avatar: ${state.avatar}'),
+                    ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<SocketBloc>(context)
+                            .add(SocketOnDisconnect());
+                      },
+                      child: const Text('Disconnect Room'),
+                    ),
+
+                  ]);
                 } else if (state is SocketError) {
                   return Text('Socket error: ${state.error}');
                 } else {
-                  return const Text('Socket disconnected');
+                  return JoinWidget(
+                      userNameController: _userNameController,
+                      roomNameController: _roomNameController,
+                      onJoin: () {
+                        if (state is! SocketJoined) {
+                          BlocProvider.of<SocketBloc>(context).add(
+                              SocketOnJoined(_roomNameController.text,
+                                  _userNameController.text, "avatar"));
+                        }
+                      },
+                      onDisconnect: () {
+                        if (state is! SocketDisconnected) {
+                          BlocProvider.of<SocketBloc>(context)
+                              .add(SocketOnDisconnect());
+                        }
+                      });
                 }
               },
             ),
-            JoinWidget(
-                controller: _controller,
-                onJoin: () {
-                  if (state is! SocketJoined) {
-                    BlocProvider.of<SocketBloc>(context)
-                        .add(SocketOnJoined(_controller.text));
-                  }
-                },
-                onDisconnect: () {
-                  if (state is! SocketDisconnected) {
-                    BlocProvider.of<SocketBloc>(context)
-                        .add(SocketOnDisconnect());
-                  }
-                })
           ],
         ),
       ),

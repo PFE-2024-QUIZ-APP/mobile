@@ -2,9 +2,17 @@ part of 'socket_bloc.dart';
 
 abstract class SocketEvent {}
 
+
+class Room {
+  final String roomName;
+  final String playerName;
+  Room(this.roomName, this.playerName);
+}
 class SocketOnJoined extends SocketEvent {
-  final String room;
-  SocketOnJoined(this.room);
+  final String roomName;
+  final String userName;
+  final String avatar;
+  SocketOnJoined(this.roomName, this.userName, this.avatar);
 }
 
 class SocketOnConnect extends SocketEvent {}

@@ -20,7 +20,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         'transports': ['websocket'],
       });
       emit(SocketConnected());
-      print('connect');
+      print('connect on localhost:3000');
     } catch (e) {
       emit(SocketError(e.toString()));
     }
@@ -28,8 +28,10 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onJoined(SocketOnJoined event, Emitter<SocketState> emit) async {
     try {
-      socket?.emit('join', event.room);
-      emit(SocketJoined(event.room));
+     // print("ABDE ${event.avatar}");
+      //print("ABDE ${event.room.roomName}");
+      socket?.emit('join', event);
+      emit(SocketJoined(event.roomName, event.userName, event.avatar));
       print('join');
     } catch (e) {
       emit(SocketError(e.toString()));
