@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:quizzapppfe/constants.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
@@ -25,15 +26,17 @@ class CreateRoom extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(logo),
+                       SvgPicture.asset(logoSVG,
+                          height: 80,
+                          width: 180,),
                         Column(
                           children: [
                             ButtonFriizz(
-                              text: state.typeCreation == "create" ? 'Créez le salon' : 'Rejoindre',
+                              text: state.typeCreation == "create" ? 'Créer un salon' : 'Rejoindre',
                               primary: true,
                               icon: play,
                               onClick: () {
-                                if (state is! SocketJoined) {
+                                if (state is! SocketJoined && _roomNameController.text.isNotEmpty) {
                                   BlocProvider.of<SocketBloc>(context).add(
                                       SocketOnJoined(_roomNameController.text, state.userName, "avatar"));
                                 }
@@ -75,10 +78,10 @@ class CreateRoom extends StatelessWidget {
                                     ),
                                     child: TextField(
                                       controller: _roomNameController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: 'Entre un nom de room',
                                         border: InputBorder.none,
-                                        contentPadding: const EdgeInsets.all(0),
+                                        contentPadding: EdgeInsets.all(0),
                                         hintStyle: TextGlobalStyle.buttonStyleWhite,
                                       ),
                                       style: TextGlobalStyle.buttonStyleWhite,

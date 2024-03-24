@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quizzapppfe/constants.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
@@ -24,15 +25,17 @@ class CreateUser extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(logo),
+                        SvgPicture.asset(logoSVG,
+                          height: 81,
+                          width: 180,),
                         Column(
                           children: [
                             ButtonFriizz(
-                              text:'Créez un salon',
+                              text:'Créer un salon',
                               primary: true,
                               icon: play,
                               onClick: () {
-                                if (state is! SocketCreationRoom) {
+                                if (state is! SocketCreationRoom && _userNameController.text.isNotEmpty) {
                                   BlocProvider.of<SocketBloc>(context).add(
                                       SocketOnCreation("create", _userNameController.text));
                                 }
@@ -44,7 +47,7 @@ class CreateUser extends StatelessWidget {
                                 primary: false,
                                 icon: play,
                                 onClick: () {
-                                  if (state is! SocketCreationRoom) {
+                                  if (state is! SocketCreationRoom && _userNameController.text.isNotEmpty) {
                                     BlocProvider.of<SocketBloc>(context).add(
                                         SocketOnCreation("join", _userNameController.text));
                                   }
@@ -69,7 +72,7 @@ class CreateUser extends StatelessWidget {
                         padding: const EdgeInsets.all(24),
                         child: Column(
                           children: [
-                            Text('Choisis un AVATAR et ton PSEUDO', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
+                            const Text('Choisis ton AVATAR et ton PSEUDO', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -86,10 +89,10 @@ class CreateUser extends StatelessWidget {
                                     ),
                                     child: TextField(
                                       controller: _userNameController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: 'Entre un pseudo',
                                         border: InputBorder.none,
-                                        contentPadding: const EdgeInsets.all(0),
+                                        contentPadding: EdgeInsets.all(0),
                                         hintStyle: TextGlobalStyle.buttonStyleWhite,
                                       ),
                                       style: TextGlobalStyle.buttonStyleWhite,

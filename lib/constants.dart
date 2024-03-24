@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // IMAGES
 String logo = 'lib/assets/images/logo.png';
+String logoSVG = 'lib/assets/images/logo.svg';
 
 
 // ICONS
