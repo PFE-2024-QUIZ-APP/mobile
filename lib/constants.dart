@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 String logo = 'lib/assets/images/logo.png';
 String logoSVG = 'lib/assets/images/logo.svg';
 
-
 // ICONS
 String play = 'lib/assets/icons/play.svg';
+String host = 'lib/assets/images/host.svg';
+String profile = 'lib/assets/images/profile.svg';
+String share = 'lib/assets/images/share.svg';
 
 
 // GRADIENTS ET COLORS
@@ -35,6 +37,13 @@ class TextGlobalStyle {
   static const TextStyle buttonStyleWhite= TextStyle(
     fontFamily: 'Luckiest',
     fontSize: 20,
+    height: 1,
+    color: Colors.white,
+  );
+
+  static const TextStyle listTileText = TextStyle(
+    fontFamily: 'Luckiest',
+    fontSize: 14,
     height: 1,
     color: Colors.white,
   );

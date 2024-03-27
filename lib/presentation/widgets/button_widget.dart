@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quizzapppfe/constants.dart';
 
@@ -17,7 +17,7 @@ class ButtonFriizz extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        width: 220,
+        width: 200,
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: primary ? Colors.white : purple,
@@ -32,12 +32,11 @@ class ButtonFriizz extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             icon != null ? SvgPicture.asset(icon!, colorFilter: ColorFilter.mode(primary ? purple : Colors.white, BlendMode.srcIn),): SizedBox(),
-            icon != null ? SizedBox(width: 10,) : SizedBox(),
-            Text(text, style: primary ? TextGlobalStyle.buttonStylePurple : TextGlobalStyle.buttonStyleWhite , textAlign: TextAlign.center,),
+            Expanded(child: Text(text, style: primary ? TextGlobalStyle.buttonStylePurple : TextGlobalStyle.buttonStyleWhite , textAlign: TextAlign.center,)),
           ],
         ),
       ),
