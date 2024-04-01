@@ -38,6 +38,13 @@ class TextGlobalStyle {
     height: 1,
     color: Colors.white,
   );
+
+  static const TextStyle timerStyle = TextStyle(
+    fontFamily: 'Luckiest',
+    fontSize: 100,
+    height: 1,
+    color: blue,
+  );
 }
 
 
