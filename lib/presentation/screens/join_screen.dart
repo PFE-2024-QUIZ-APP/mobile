@@ -14,9 +14,6 @@ import '../widgets/timer_widget.dart';
 class JoinScreen extends StatelessWidget {
   JoinScreen({super.key});
 
-  final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _roomNameController = TextEditingController();
-
   get state => null;
 
   @override
@@ -25,7 +22,7 @@ class JoinScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
         decoration: const BoxDecoration(
           gradient: BackgroundGradient,
         ),
@@ -33,19 +30,36 @@ class JoinScreen extends StatelessWidget {
           builder: (context, state) {
             if (state is SocketJoined) {
               return SafeArea(
-                child: Column(
-                children: [
-                  Text('Room Name: ${state.roomName}', style: TextGlobalStyle.buttonStyleWhite),
-                  Text('${state.users.length} joueurs', style: TextGlobalStyle.buttonStyleWhite),
-                  RoomPlayersList(users: state.users),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<SocketBloc>(context)
-                          .add(SocketOnDisconnect());
-                    },
-                    child: const Text('Disconnect Room'),
-                  ),
+                child: Column(children: [
+                  Stack(children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: blue60,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Spacer(),
+                          Text('${state.users.length} joueurs',
+                              style: TextGlobalStyle.buttonStyleWhite,),
+                          const Spacer(),
+                          IconButton(
+                            icon: Image.asset(close),
+                            onPressed: () {
+                              BlocProvider.of<SocketBloc>(context)
+                                  .add(SocketOnDisconnect());
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40),
+                      child: RoomPlayersList(users: state.users),
+                    ),
+                  ]),
+                  const Spacer(),
                   ButtonFriizz(
                       icon: share,
                       text: "Inviter",
@@ -54,7 +68,7 @@ class JoinScreen extends StatelessWidget {
                         Share.share(
                             'Rejoins moi sur Friizz pour jouer ensemble, code : ${state.roomName}');
                       }),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   ButtonFriizz(
                       icon: play,
                       text: "Démarrer",

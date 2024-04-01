@@ -11,11 +11,8 @@ class RoomPlayersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(10),
-        topRight: Radius.circular(10),
-        bottomLeft: Radius.circular(10),
-        bottomRight: Radius.circular(10),
+      borderRadius: const BorderRadius.all(
+        Radius.circular(10),
       ),
       child: ListView.separated(
         shrinkWrap: true,
@@ -24,7 +21,6 @@ class RoomPlayersList extends StatelessWidget {
           final user = users[index];
           return Container(
             color: blue,
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
             child: ListTile(
               titleTextStyle: TextGlobalStyle.listTileText,
               leading: user["avatar"] != "avatar"
@@ -38,20 +34,16 @@ class RoomPlayersList extends StatelessWidget {
                       height: 40,
                       width: 40,
                     ),
-
-              title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                Text(user["name"]),
-                SvgPicture.asset(
-                  host,
+              title: Text(user["name"]),
+              subtitle: Text("${user["score"] ?? 0} PTS",
+                  style: TextGlobalStyle.listTileText),
+              trailing: SvgPicture.asset(host,
                   height: 30,
                   width: 30,
-                )
-              ]),
-
-              trailing: Text("${user["score"] ?? 0} PTS",
-                  style: TextGlobalStyle.listTileText),
+                  colorFilter: index == 0
+                      ? null
+                      : const ColorFilter.mode(
+                          Colors.transparent, BlendMode.srcIn)),
               tileColor: Colors.white,
               selected: false,
               selectedColor: Colors.red,

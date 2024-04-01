@@ -10,6 +10,7 @@ String play = 'lib/assets/icons/play.svg';
 String host = 'lib/assets/images/host.svg';
 String profile = 'lib/assets/images/profile.svg';
 String share = 'lib/assets/images/share.svg';
+String close = 'lib/assets/images/close.png';
 
 
 // GRADIENTS ET COLORS
@@ -21,6 +22,7 @@ const LinearGradient BackgroundGradient = LinearGradient(
 
 const Color purple = Color(0xFF8B85C1);
 const Color blue = Color(0xFF094D92);
+const Color blue60 = Color(0x99094D92);
 const Color lightBlue = Color(0xFF84A6C8);
 
 
