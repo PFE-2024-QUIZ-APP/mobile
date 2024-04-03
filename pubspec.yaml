@@ -42,6 +42,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_screenutil: ^5.9.0
   share: ^2.0.4
+  cloud_firestore: ^4.15.10
 
 dev_dependencies:
   flutter_test:

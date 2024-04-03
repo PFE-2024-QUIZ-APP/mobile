@@ -43,12 +43,12 @@ class TextGlobalStyle {
     color: Colors.white,
   );
 
-
   static const TextStyle listTileText = TextStyle(
     fontFamily: 'Luckiest',
     fontSize: 14,
     height: 1,
     color: Colors.white,
+  );
 
   static const TextStyle timerStyle = TextStyle(
     fontFamily: 'Luckiest',

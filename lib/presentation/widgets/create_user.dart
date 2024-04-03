@@ -37,7 +37,7 @@ class CreateUser extends StatelessWidget {
                               onClick: () {
                                 if (state is! SocketCreationRoom && _userNameController.text.isNotEmpty) {
                                   BlocProvider.of<SocketBloc>(context).add(
-                                      SocketOnCreation("create", _userNameController.text));
+                                      SocketOnCreation("create", _userNameController.text, "avatar"));
                                 }
                               },
                             ),
@@ -49,7 +49,7 @@ class CreateUser extends StatelessWidget {
                                 onClick: () {
                                   if (state is! SocketCreationRoom && _userNameController.text.isNotEmpty) {
                                     BlocProvider.of<SocketBloc>(context).add(
-                                        SocketOnCreation("join", _userNameController.text));
+                                        SocketOnCreation("join", _userNameController.text, "avatar"));
                                   }
                                 }
                             ),
