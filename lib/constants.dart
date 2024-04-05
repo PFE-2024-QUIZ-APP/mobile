@@ -48,7 +48,7 @@ class TextGlobalStyle {
     fontFamily: 'Luckiest',
     fontSize: 14,
     height: 1,
-    color: Colors.white,
+    color: Colors.white,);
 
   static const TextStyle timerStyle = TextStyle(
     fontFamily: 'Luckiest',
