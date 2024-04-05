@@ -16,7 +16,7 @@ class CreateRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SocketBloc,SocketState>(
         builder: (context, state) {
-          if(state is SocketCreationRoom){
+          if(state is SocketRoomCreated){
             return Stack(
               children: [
                 Row(
@@ -38,7 +38,7 @@ class CreateRoom extends StatelessWidget {
                               onClick: () {
                                 if (state is! SocketJoined && _roomNameController.text.isNotEmpty) {
                                   BlocProvider.of<SocketBloc>(context).add(
-                                      SocketOnJoined(_roomNameController.text, state.userName, "avatar"));
+                                      SocketOnJoin(_roomNameController.text, state.userName, state.avatar));
                                 }
                               },
                             ),
@@ -51,9 +51,7 @@ class CreateRoom extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
+                   Container(
                         decoration: BoxDecoration(
                           color: blue,
                           borderRadius: BorderRadius.circular(20),
@@ -92,7 +90,6 @@ class CreateRoom extends StatelessWidget {
                             )
                           ],
                         ),
-                      ),
                     )
                   ],
                 ),

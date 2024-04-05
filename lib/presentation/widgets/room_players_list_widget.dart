@@ -19,18 +19,13 @@ class RoomPlayersList extends StatelessWidget {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
+          print(user);
           return Container(
             color: blue,
             child: ListTile(
               titleTextStyle: TextGlobalStyle.listTileText,
-              leading: user["avatar"] != "avatar"
-                  ? SvgPicture.asset(
-                      user["avatar"],
-                      height: 40,
-                      width: 40,
-                    )
-                  : SvgPicture.asset(
-                      profile,
+              leading: Image.asset(
+                      "lib/assets/images/avatar_${user["avatar"]}.png",
                       height: 40,
                       width: 40,
                     ),
