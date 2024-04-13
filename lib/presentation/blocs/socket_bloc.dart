@@ -11,6 +11,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnJoin>(_onJoined);
    on<SocketOnConnect>(_onConnect);
    on<SocketOnCreation>(_onCreation);
+   on<SocketOnCreateRoom>(_onCreateRoom);
    on<SocketOnDisconnect>(_onDisconnected);
 
    add(SocketOnConnect());
@@ -31,7 +32,6 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
     try {
-      print(event.userName);
       socket?.emit('join', {event.roomName, event.userName, event.avatar});
       _setupSocketListeners();
       print('join');
@@ -39,15 +39,27 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       emit(SocketError(e.toString()));
     }
   }
-
+  // Select if it create a room or join a room
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
+      emit(SocketCreationRoom(event.typeCreation, event.userName, event.avatar));
+      _setupSocketListeners();
       print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
     }
   }
+
+  // Create room
+   void _onCreateRoom(SocketOnCreateRoom event, Emitter<SocketState> emit) async {
+     try {
+       socket?.emit('createRoom', {event.uidQuizz, event.userName, event.avatar});
+       emit(SocketCreationRoom(event.uidQuizz, event.userName, event.avatar));
+       print('create room');
+     } catch (e) {
+       emit(SocketError(e.toString()));
+     }
+   }
 
   void _onDisconnected(SocketOnDisconnect event, Emitter<SocketState> emit) async {
     try {
