@@ -18,14 +18,14 @@ class SocketOnJoin extends SocketEvent {
 class SocketOnCreation extends SocketEvent {
   final String typeCreation;
   final String userName;
-  final String avatar;
+  final int avatar;
   SocketOnCreation(this.typeCreation, this.userName, this.avatar);
 }
 
 class SocketOnCreateRoom extends SocketEvent {
   final String uidQuizz;
   final String userName;
-  final String avatar;
+  final int avatar;
   SocketOnCreateRoom(this.uidQuizz, this.userName, this.avatar);
 }
 

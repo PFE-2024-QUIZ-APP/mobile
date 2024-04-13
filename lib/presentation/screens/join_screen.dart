@@ -79,7 +79,7 @@ class JoinScreen extends StatelessWidget {
               );
             } else if (state is SocketError) {
               return Text('Socket error: ${state.error}');
-            } else if (state is SocketRoomCreated) {
+            } else if (state is SocketCreationRoom) {
               return SafeArea(child: CreateRoom());
             } else {
               return SafeArea(child: CreateUser());

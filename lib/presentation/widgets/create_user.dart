@@ -73,7 +73,7 @@ class CreateUserState extends State<CreateUser> {
                         primary: true,
                         icon: play,
                         onClick: () {
-                          if (state is! SocketRoomCreated &&
+                          if (state is! SocketCreationRoom &&
                               _userNameController.text.isNotEmpty) {
                             BlocProvider.of<SocketBloc>(context).add(
                                 SocketOnCreation(
@@ -87,7 +87,7 @@ class CreateUserState extends State<CreateUser> {
                           primary: false,
                           icon: play,
                           onClick: () {
-                            if (state is! SocketRoomCreated &&
+                            if (state is! SocketCreationRoom &&
                                 _userNameController.text.isNotEmpty) {
                               BlocProvider.of<SocketBloc>(context).add(
                                   SocketOnCreation(

@@ -57,7 +57,7 @@ class _CreateRoomState extends State<CreateRoom> {
                                   if (state is! SocketJoined && uidQuizz.isNotEmpty) {
                                     BlocProvider.of<SocketBloc>(context).add(
                                         SocketOnCreateRoom(uidQuizz,
-                                            state.userName, "avatar"));
+                                            state.userName, state.avatar));
                                   }
                                 },
                               ),
@@ -147,8 +147,8 @@ class _CreateRoomState extends State<CreateRoom> {
                                   if (state is! SocketJoined &&
                                       _roomNameController.text.isNotEmpty) {
                                     BlocProvider.of<SocketBloc>(context).add(
-                                        SocketOnJoined(_roomNameController.text,
-                                            state.userName, "avatar"));
+                                        SocketOnJoin(_roomNameController.text,
+                                            state.userName, state.avatar));
                                   }
                                 },
                               ),

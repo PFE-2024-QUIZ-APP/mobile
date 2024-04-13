@@ -39,12 +39,11 @@ class SocketError extends SocketState {
   List<Object> get props => [error];
 }
 
-class SocketRoomCreated extends SocketState {
+class SocketCreationRoom extends SocketState {
   final String typeCreation;
   final String userName;
-  final String avatar;
+  final int avatar;
   SocketCreationRoom(this.typeCreation, this.userName, this.avatar, );
-
   @override
   List<Object> get props => [typeCreation, userName, avatar];
 }
