@@ -8,7 +8,7 @@ part 'socket_state.dart';
 class SocketBloc extends Bloc<SocketEvent, SocketState> {
    IO.Socket? socket;
   SocketBloc() : super(SocketInitial()) {
-   on<SocketOnJoined>(_onJoined);
+   on<SocketOnJoin>(_onJoined);
    on<SocketOnConnect>(_onConnect);
    on<SocketOnCreation>(_onCreation);
    on<SocketOnDisconnect>(_onDisconnected);
@@ -29,7 +29,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
-  void _onJoined(SocketOnJoined event, Emitter<SocketState> emit) async {
+  void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
     try {
       print(event.userName);
       socket?.emit('join', {event.roomName, event.userName, event.avatar});
@@ -42,7 +42,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketCreationRoom(event.typeCreation, event.userName));
+      emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
       print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
