@@ -171,38 +171,36 @@ class _CreateRoomState extends State<CreateRoom> {
                           padding: const EdgeInsets.all(24),
                           child: Column(
                             children: [
-                              Text('Choisi un theme',
-                                style: TextGlobalStyle.buttonStyleWhite,
-                                textAlign: TextAlign.center,),
-                              SizedBox(height: 20,),
-                              BlocBuilder<QuizzBloc, QuizzThemeState>(
-                                  builder: (context, state) {
-                                    if (state is QuizzThemeLoading) {
-                                      return CircularProgressIndicator();
-                                    } else if (state is QuizzThemeLoaded) {
-                                      return ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: state.quizzes.length,
-                                        itemBuilder: (context, index) {
-                                          final item = state.quizzes[index];
-                                          return Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 20),
-                                            child: ButtonFriizz(
-                                                text: item.name,
-                                                primary: true,
-                                                onClick: () {
-                                                  HapticFeedback.lightImpact();
-                                                }),
-                                          );
-                                        },
-                                      );
-                                    } else if (state is QuizzThemeError) {
-                                      return Text('Error fetching items');
-                                    }
-                                    return Container();
-                                  }
+                              Text('Entre le numéro de ta room', style: TextGlobalStyle.buttonStyleWhite, textAlign: TextAlign.center,),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10,),
+                                      decoration: BoxDecoration(
+                                        color: lightBlue,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 4,
+                                        ),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: TextField(
+                                        controller: _roomNameController,
+                                        decoration: const InputDecoration(
+                                          hintText: 'Entre un nom de room',
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.all(0),
+                                          hintStyle: TextGlobalStyle.buttonStyleWhite,
+                                        ),
+                                        style: TextGlobalStyle.buttonStyleWhite,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               )
+
                             ],
                           ),
                         ),

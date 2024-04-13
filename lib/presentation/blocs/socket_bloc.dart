@@ -39,7 +39,6 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       emit(SocketError(e.toString()));
     }
   }
-
   // Select if it create a room or join a room
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
