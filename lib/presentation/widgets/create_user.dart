@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quizzapppfe/constants.dart';
@@ -111,57 +112,68 @@ class CreateUserState extends State<CreateUser> {
                   child: Column(
                     children: [
                       const Text(
-                        'Choisis ton AVATAR et ton PSEUDO',
+                        'Choisis ton avatar et ton pseudo',
                         style: TextGlobalStyle.buttonStyleWhite,
                         textAlign: TextAlign.center,
                       ),
-                  Column(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                    icon: const Icon(Icons.arrow_back_ios,
-                                        color: Colors.white),
-                                    onPressed: () {
-                                     selectAvatar(-1);
-                                    }),
-                                Image.asset(_currentAvatar),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                  ),
-                                    onPressed: () {
-                                      selectAvatar(1);
-                                    }
-                                )
-                              ],
-                            ),
+                            IconButton(
+                                icon: const Icon(Icons.arrow_back_ios,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  selectAvatar(-1);
+                                }),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: lightBlue,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 4,
+                                decoration:  BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: TextField(
-                                controller: _userNameController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Entre un pseudo',
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.all(0),
-                                  hintStyle: TextGlobalStyle.buttonStyleWhite,
-                                ),
-                                style: TextGlobalStyle.buttonStyleWhite,
-                              ),
+                                child: Image.asset(_currentAvatar)
                             ),
+                            IconButton(
+                                icon: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  selectAvatar(1);
+                                }
+                            )
                           ],
                         ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: lightBlue,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 4,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextField(
+                          controller: _userNameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Entre un pseudo',
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(0),
+                            hintStyle: TextGlobalStyle.buttonStyleWhite,
+                          ),
+                          style: TextGlobalStyle.buttonStyleWhite,
+                        ),
+                      ),
                     ],
                   ),
               )
