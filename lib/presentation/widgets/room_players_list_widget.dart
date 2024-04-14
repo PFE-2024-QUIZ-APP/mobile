@@ -19,7 +19,6 @@ class RoomPlayersList extends StatelessWidget {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-          print(user);
           return Container(
             color: blue,
             child: ListTile(
