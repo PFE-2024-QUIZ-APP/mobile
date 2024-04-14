@@ -33,6 +33,8 @@ const Color purple = Color(0xFF8B85C1);
 const Color blue = Color(0xFF094D92);
 const Color blue60 = Color(0x99094D92);
 const Color lightBlue = Color(0xFF84A6C8);
+const Color correct = Color(0xFF8ED5A2);
+const Color wrong = Color(0xFFD23C3C);
 
 
 // FONT STYLE
@@ -48,6 +50,12 @@ class TextGlobalStyle {
   static const TextStyle buttonStyleWhite= TextStyle(
     fontFamily: 'Luckiest',
     fontSize: 20,
+    height: 1,
+    color: Colors.white,
+  );
+  static const TextStyle answerButtonStyleWhite= TextStyle(
+    fontFamily: 'Luckiest',
+    fontSize: 16,
     height: 1,
     color: Colors.white,
   );
