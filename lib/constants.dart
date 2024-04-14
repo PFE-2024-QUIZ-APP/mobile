@@ -12,6 +12,15 @@ String profile = 'lib/assets/images/profile.svg';
 String share = 'lib/assets/images/share.svg';
 String close = 'lib/assets/images/close.png';
 
+// AVATARS
+String avatar_1 = 'lib/assets/images/avatar_1.png';
+String avatar_2 = 'lib/assets/images/avatar_2.png';
+String avatar_3 = 'lib/assets/images/avatar_3.png';
+String avatar_4 = 'lib/assets/images/avatar_4.png';
+String avatar_5 = 'lib/assets/images/avatar_5.png';
+String avatar_6 = 'lib/assets/images/avatar_6.png';
+String avatar_7 = 'lib/assets/images/avatar_7.png';
+String avatar_8 = 'lib/assets/images/avatar_8.png';
 
 // GRADIENTS ET COLORS
 const LinearGradient BackgroundGradient = LinearGradient(
@@ -51,12 +60,12 @@ class TextGlobalStyle {
     color: Colors.white,
   );
 
-
   static const TextStyle listTileText = TextStyle(
     fontFamily: 'Luckiest',
     fontSize: 14,
     height: 1,
-    color: Colors.white,);
+    color: Colors.white,
+  );
 
   static const TextStyle timerStyle = TextStyle(
     fontFamily: 'Luckiest',

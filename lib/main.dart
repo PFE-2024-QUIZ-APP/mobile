@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzapppfe/presentation/blocs/quizz_theme.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 import 'package:quizzapppfe/presentation/screens/join_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures widget binding is initialized
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -17,8 +22,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        create: (context) => SocketBloc(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<SocketBloc>(
+            create: (context) => SocketBloc(),
+          ),
+          BlocProvider<QuizzBloc>(
+              create: (context) => QuizzBloc(firestore: FirebaseFirestore.instance)
+          )
+        ],
         child: JoinScreen(),
       ),
     );
