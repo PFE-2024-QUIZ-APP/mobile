@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:quizzapppfe/presentation/models/quizzes.dart';
+
+import '../../data/models/quizzes.dart';
 
 // State
 abstract class QuizzThemeState extends Equatable {

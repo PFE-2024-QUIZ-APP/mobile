@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quizzapppfe/constants.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
-import 'button_widget.dart';
+import '../../widgets/LogoHeader.dart';
+import '../../widgets/button_widget.dart';
 
 class CreateUser extends StatefulWidget {
   const CreateUser({super.key});
@@ -61,11 +61,7 @@ class CreateUserState extends State<CreateUser> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    logoSVG,
-                    height: 81,
-                    width: 180,
-                  ),
+                  LogoHeader(),
                   Column(
                     children: [
                       ButtonFriizz(
@@ -73,7 +69,7 @@ class CreateUserState extends State<CreateUser> {
                         primary: true,
                         icon: play,
                         onClick: () {
-                          if (state is! SocketCreationRoom &&
+                          if (state is! SocketRoomCreated &&
                               _userNameController.text.isNotEmpty) {
                             BlocProvider.of<SocketBloc>(context).add(
                                 SocketOnCreation(
@@ -87,7 +83,7 @@ class CreateUserState extends State<CreateUser> {
                           primary: false,
                           icon: play,
                           onClick: () {
-                            if (state is! SocketCreationRoom &&
+                            if (state is! SocketRoomCreated &&
                                 _userNameController.text.isNotEmpty) {
                               BlocProvider.of<SocketBloc>(context).add(
                                   SocketOnCreation(

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quizzapppfe/presentation/models/questions.dart';
+import 'package:quizzapppfe/data/models/questions.dart';
 
 class Quizz {
   final String uid;
