@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../../data/models/questions.dart';
+
+
 part 'socket_event.dart';
 part 'socket_state.dart';
 
@@ -13,6 +16,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnCreation>(_onCreation);
    on<SocketOnCreateRoom>(_onCreateRoom);
    on<SocketOnDisconnect>(_onDisconnected);
+   on<SocketOnLaunchGame>(_onLaunchGame);
+   on<SocketOnQuestion>(_onQuestion);
 
    add(SocketOnConnect());
 }
@@ -71,11 +76,35 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
+  void _onLaunchGame(SocketOnLaunchGame event, Emitter<SocketState> emit) async {
+    try {
+      socket?.emit('startGame', event.room);
+      // emit(SocketLaunchGame());
+      print('launch game');
+    } catch (e) {
+      emit(SocketError(e.toString()));
+    }
+  }
+
+   void _onQuestion(SocketOnQuestion event, Emitter<SocketState> emit) async {
+     try {
+       emit(SocketQuestion(event.question));
+     } catch (e) {
+       emit(SocketError(e.toString()));
+     }
+   }
+
    void _setupSocketListeners() {
      socket?.on('roomData', (data) {
        print(data);
        emit(SocketJoined(data["roomId"], data["players"]));
-       // add(SocketOnMessageReceived(data));
+     });
+
+     socket?.on('startGame', (data) {
+       print(data);
+       print('game started');
+       var question = Question.fromMap(data["question"]);
+       emit(SocketLaunchGame(question));
      });
 
      // You can listen to more events here

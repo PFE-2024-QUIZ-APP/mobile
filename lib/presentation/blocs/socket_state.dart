@@ -47,3 +47,18 @@ class SocketRoomCreated extends SocketState {
   @override
   List<Object> get props => [typeCreation, userName, avatar];
 }
+
+class SocketQuestion extends SocketState {
+  final Question;
+  SocketQuestion(this.Question);
+  @override
+  List<Object> get props => [Question];
+}
+
+
+class SocketLaunchGame extends SocketState {
+  final Question;
+  SocketLaunchGame(this.Question);
+  @override
+  List<Object> get props => [Question];
+}

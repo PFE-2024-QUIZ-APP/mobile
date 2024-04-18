@@ -58,7 +58,13 @@ class RoomScreen extends StatelessWidget {
               }),
           const SizedBox(height: 24),
           ButtonFriizz(
-              icon: play, text: "Démarrer", primary: false, onClick: () {})
+              icon: play,
+              text: "Démarrer",
+              primary: false,
+              onClick: () {
+                BlocProvider.of<SocketBloc>(context).add(SocketOnLaunchGame(state.roomName));
+              }
+          )
         ]));
       } else {
         return const Text('Socket error: ');

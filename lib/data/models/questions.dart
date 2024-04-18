@@ -1,18 +1,16 @@
 
 
 class Question {
-  final String name;
-  final String questiontext;
+  final String questionText;
   final List<String> responses;
   final String rightAnswer;
   final String type;
 
-  Question({required this.name, required this.questiontext, required this.responses, required this.rightAnswer, required this.type});
+  Question({ required this.questionText, required this.responses, required this.rightAnswer, required this.type});
 
   factory Question.fromMap(Map<String, dynamic> data) {
     return Question(
-      name: data['name'] ?? '',
-      questiontext: data['questiontext'] ?? '',
+      questionText: data['questionText'] ?? '',
       responses: List<String>.from(data['responses'] ?? []),
       rightAnswer: data['rightAnswer'] ?? '',
       type: data['type'] ?? '',

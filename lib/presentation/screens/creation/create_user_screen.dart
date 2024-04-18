@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzapppfe/constants.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
+import '../../blocs/quizz_theme.dart';
 import '../../widgets/LogoHeader.dart';
 import '../../widgets/button_widget.dart';
 
@@ -34,6 +35,7 @@ class CreateUserState extends State<CreateUser> {
   void initState() {
     _userNameController = TextEditingController();
     super.initState();
+    BlocProvider.of<QuizzBloc>(context).add(LoadItems());
   }
 
   @override
