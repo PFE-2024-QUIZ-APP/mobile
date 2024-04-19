@@ -12,7 +12,6 @@ import '../../widgets/button_widget.dart';
 
 class RoomScreen extends StatefulWidget {
   RoomScreen({super.key});
-
   @override
   State<RoomScreen> createState() => _RoomScreenState();
 }
