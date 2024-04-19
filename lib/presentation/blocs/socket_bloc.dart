@@ -47,7 +47,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   // Select if it create a room or join a room
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
+      emit(SocketRoomCreated(event.userName, event.avatar));
       _setupSocketListeners();
       print('creation');
     } catch (e) {
@@ -58,7 +58,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   // Create room
    void _onCreateRoom(SocketOnCreateRoom event, Emitter<SocketState> emit) async {
      try {
-       socket?.emit('createRoom', {event.uidQuizz, event.userName, event.avatar});
+       socket?.emit('createRoom', {event.userName, event.avatar});
        // Peut être mettre un loader ici pour attendre la réponse du serveur
        print('create room');
      } catch (e) {

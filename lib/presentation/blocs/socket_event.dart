@@ -23,10 +23,9 @@ class SocketOnCreation extends SocketEvent {
 }
 
 class SocketOnCreateRoom extends SocketEvent {
-  final String uidQuizz;
   final String userName;
   final int avatar;
-  SocketOnCreateRoom(this.uidQuizz, this.userName, this.avatar);
+  SocketOnCreateRoom( this.userName, this.avatar);
 }
 
 class SocketOnLaunchGame extends SocketEvent {

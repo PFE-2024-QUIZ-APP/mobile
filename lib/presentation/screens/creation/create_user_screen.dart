@@ -81,6 +81,9 @@ class CreateUserState extends State<CreateUser> {
                           if (state is! SocketRoomCreated &&
                               _userNameController.text.isNotEmpty) {
                             BlocProvider.of<SocketBloc>(context).add(
+                                SocketOnCreateRoom(_userNameController.text,
+                                    _avatarList.indexOf(_currentAvatar) + 1));
+                            BlocProvider.of<SocketBloc>(context).add(
                                 SocketOnCreation(
                                     "create", _userNameController.text, _avatarList.indexOf(_currentAvatar) + 1));
                           }
