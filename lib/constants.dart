@@ -26,7 +26,8 @@ String avatar_8 = 'lib/assets/images/avatar_8.png';
 const LinearGradient BackgroundGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFF4A69AA), Color(0xFF84A6C8)],
+  colors: [Color(0xFF4D6BA8),Color(0xFF83A5C7), Color(0xFF83A6C7)],
+  stops: [0.1, 0.5, 0.9],
 );
 
 const Color purple = Color(0xFF8B85C1);
@@ -71,8 +72,7 @@ class TextGlobalStyle {
     fontFamily: 'Luckiest',
     fontSize: 100,
     height: 1,
-    color: blue,
-
+    color:  Colors.white,
   );
 }
 

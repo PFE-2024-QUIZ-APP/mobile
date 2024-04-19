@@ -22,7 +22,6 @@ class _CreateRoomState extends State<CreateRoom> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<QuizzBloc>(context).add(LoadItems());
   }
 
   final TextEditingController _roomNameController = TextEditingController();

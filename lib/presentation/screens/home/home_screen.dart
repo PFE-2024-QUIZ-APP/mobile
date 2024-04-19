@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzapppfe/presentation/screens/creation/create_room_screen.dart';
 import 'package:quizzapppfe/presentation/screens/creation/create_user_screen.dart';
 import 'package:quizzapppfe/presentation/screens/room/room_screen.dart';
+import 'package:quizzapppfe/presentation/widgets/timer_widget.dart';
 
 import '../../../constants.dart';
 import '../../blocs/socket_bloc.dart';
+import '../../widgets/question_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -31,7 +33,11 @@ class HomeScreen extends StatelessWidget {
               return Text('Socket error: ${state.error}');
             } else if (state is SocketRoomCreated) {
               return SafeArea(child: CreateRoom());
-            } else {
+            }else if(state is SocketLaunchGame) {
+              return const Timer();
+            }else if(state is SocketQuestion){
+              return QuestionWidget(question:state.Question);
+          }else {
               return const SafeArea(child: CreateUser());
             }
           },

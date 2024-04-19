@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzapppfe/constants.dart';
 import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
 
+import '../../blocs/quizz_theme.dart';
 import '../../widgets/LogoHeader.dart';
 import '../../widgets/button_widget.dart';
 
@@ -34,6 +35,14 @@ class CreateUserState extends State<CreateUser> {
   void initState() {
     _userNameController = TextEditingController();
     super.initState();
+    BlocProvider.of<QuizzBloc>(context).add(LoadItems());
+
+    // Pre-caching avatar images
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _avatarList.forEach((avatar) {
+        precacheImage(AssetImage(avatar), context);
+      });
+    });
   }
 
   @override
@@ -117,7 +126,6 @@ class CreateUserState extends State<CreateUser> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-
                             IconButton(
                                 icon: const Icon(Icons.arrow_back_ios,
                                     color: Colors.white),

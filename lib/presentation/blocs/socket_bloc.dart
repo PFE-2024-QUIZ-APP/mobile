@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../../data/models/questions.dart';
+
+
 part 'socket_event.dart';
 part 'socket_state.dart';
 
@@ -13,6 +16,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnCreation>(_onCreation);
    on<SocketOnCreateRoom>(_onCreateRoom);
    on<SocketOnDisconnect>(_onDisconnected);
+   on<SocketOnLaunchGame>(_onLaunchGame);
+   on<SocketOnQuestion>(_onQuestion);
 
    add(SocketOnConnect());
 }
@@ -43,7 +48,6 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
       emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
-      _setupSocketListeners();
       print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
@@ -54,7 +58,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    void _onCreateRoom(SocketOnCreateRoom event, Emitter<SocketState> emit) async {
      try {
        socket?.emit('createRoom', {event.uidQuizz, event.userName, event.avatar});
-       emit(SocketRoomCreated(event.uidQuizz, event.userName, event.avatar));
+       // Peut être mettre un loader ici pour attendre la réponse du serveur
        print('create room');
      } catch (e) {
        emit(SocketError(e.toString()));
@@ -71,14 +75,41 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
+  void _onLaunchGame(SocketOnLaunchGame event, Emitter<SocketState> emit) async {
+    try {
+      socket?.emit('startGame', event.room);
+      print('launch game');
+    } catch (e) {
+      emit(SocketError(e.toString()));
+    }
+  }
+
+   void _onQuestion(SocketOnQuestion event, Emitter<SocketState> emit) async {
+     try {
+       emit(SocketQuestion(event.question));
+     } catch (e) {
+       emit(SocketError(e.toString()));
+     }
+   }
+
    void _setupSocketListeners() {
      socket?.on('roomData', (data) {
        print(data);
        emit(SocketJoined(data["roomId"], data["players"]));
-       // add(SocketOnMessageReceived(data));
      });
 
-     // You can listen to more events here
+     socket?.on('startGame', (data) {
+       print(data["creator"]);
+       print(socket?.id);
+       print('game started');
+       var creator = data["creator"] == socket?.id;
+       var question = Question.fromMap(data["question"]);
+       emit(SocketLaunchGame(question, creator));
+     });
+
+     socket?.on('roomNotFound', (data) {
+       print(data);
+     });
    }
 
 

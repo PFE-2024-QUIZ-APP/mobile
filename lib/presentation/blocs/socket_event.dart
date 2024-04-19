@@ -29,6 +29,17 @@ class SocketOnCreateRoom extends SocketEvent {
   SocketOnCreateRoom(this.uidQuizz, this.userName, this.avatar);
 }
 
+class SocketOnLaunchGame extends SocketEvent {
+  final String room;
+  SocketOnLaunchGame(this.room);
+}
+
+class SocketOnQuestion extends SocketEvent {
+  final Question question;
+  final bool creator;
+  SocketOnQuestion(this.question, this.creator);
+}
+
 class SocketOnConnect extends SocketEvent {}
 
 class SocketOnDisconnect extends SocketEvent {}

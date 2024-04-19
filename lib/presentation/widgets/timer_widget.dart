@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants.dart';
+import '../blocs/socket_bloc.dart';
 
 class Timer extends StatefulWidget {
   const Timer({super.key});
@@ -14,6 +16,7 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
   Animation<double>? _scaleAnimation;
   Animation<double>? _opacityAnimation;
   int _currentNumber = 5;
+
 
   @override
   void initState() {
@@ -33,17 +36,32 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
 
     _animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          _currentNumber -= 1;
-        });
         if (_currentNumber > 0) {
+          setState(() {
+            _currentNumber -= 1;
+          });
           _animationController!.reset();
           _animationController!.forward();
+        } else {
+          // Timer has reached zero, trigger action here
+          _onTimerEnd();
         }
       }
     });
 
     _animationController!.forward();
+  }
+  void _onTimerEnd() {
+    final socketBloc = BlocProvider.of<SocketBloc>(context);
+    final socketState = socketBloc.state;
+
+
+    if (socketState is SocketLaunchGame) { // Assuming SocketLoaded is a valid state
+      print(socketState.question);
+      socketBloc.add(SocketOnQuestion(socketState.question, socketState.creator));
+    } else {
+      // Handle other states or show an error
+    }
   }
 
   @override

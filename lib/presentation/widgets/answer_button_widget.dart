@@ -5,10 +5,10 @@ import 'package:quizzapppfe/constants.dart';
 
 class AnswerBtn extends StatelessWidget {
   final String text; // text to display on the button
-  final Color state; // neutral, correct, wrong
+  final Color state; // Color to indicate state of the button
   final Function onClick;
 
-  const AnswerBtn({super.key, required this.text,this.state = purple,  required this.onClick});
+  const AnswerBtn({super.key, required this.text, required this.state, required this.onClick});
 
   @override
   Widget build(BuildContext context) {

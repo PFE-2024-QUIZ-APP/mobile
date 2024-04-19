@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:quizzapppfe/data/models/questions.dart';
 import 'package:quizzapppfe/presentation/widgets/answer_button_widget.dart';
 
 import '../../constants.dart';
 
 class QuestionWidget extends StatefulWidget {
-  final String questionText;
-  final List<String> responses;
-  final List<String> rightAnswer;
-  final String types;
+  final Question question;
 
   const QuestionWidget(
       {super.key,
-      required this.questionText,
-      required this.responses,
-      required this.rightAnswer,
-      required this.types});
+      required this.question});
 
   @override
   State<QuestionWidget> createState() => _QuestionWidgetState();
 }
 
 class _QuestionWidgetState extends State<QuestionWidget> {
+  int? selectedAnswerIndex;
+  bool answered = false; // To track if the question has been answered
+
+  void handleAnswerClick(int index) {
+    if (!answered) { // Check if the question has already been answered
+      setState(() {
+        selectedAnswerIndex = index;
+        answered = true; // Set to true to disable further interaction
+      });
+    }
+  }
+
+  Color getAnswerColor(int index) {
+    if (!answered) {
+      return purple; // Default color if not answered
+    } else if (widget.question.responses[index] == widget.question.rightAnswer) {
+      return correct; // Correct answer color
+    } else if (index == selectedAnswerIndex) {
+      return wrong; // Wrong answer color
+    } else {
+      return purple; // Default color for non-selected answers
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
       return Column(
@@ -29,7 +48,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
-                  height: 500,
+                  height: 100 + (widget.question.responses.length * 100.0),
                   decoration: BoxDecoration(
                     color: blue60,
                     borderRadius: BorderRadius.circular(20),
@@ -38,29 +57,24 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   child: Column(
                       children: [
                     Text(
-                      widget.questionText,
+                      widget.question.questionText,
                       style: TextGlobalStyle.buttonStyleWhite,
                       textAlign: TextAlign.center,
                     ),
-                    Flexible(
+                        Flexible(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              AnswerBtn(text: widget.responses[0], state: correct, onClick: (){
-
-                              }),
-                              AnswerBtn(text: widget.responses[1],  onClick: (){
-
-                              }),
-                              AnswerBtn(text: widget.responses[2],  onClick: (){
-
-                              }),
-                              AnswerBtn(text: widget.responses[3], state: wrong, onClick: (){
-
-                              }),
-                            ],
+                            children: widget.question.responses.asMap().entries.map<Widget>((entry) {
+                              int idx = entry.key;
+                              String answer = entry.value;
+                              return AnswerBtn(
+                                text: answer,
+                                state: getAnswerColor(idx),
+                                onClick: () => handleAnswerClick(idx),
+                              );
+                            }).toList(),
                           ),
-                        )
+                        ),
                   ]),
                 ),
               )
