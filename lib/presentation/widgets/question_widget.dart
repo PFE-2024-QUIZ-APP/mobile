@@ -4,6 +4,7 @@ import 'package:quizzapppfe/data/models/questions.dart';
 import 'package:quizzapppfe/presentation/widgets/answer_button_widget.dart';
 import 'package:quizzapppfe/presentation/widgets/button_widget.dart';
 
+import 'package:quizzapppfe/presentation/widgets/question_timer_widget.dart';
 import '../../constants.dart';
 import '../blocs/socket_bloc.dart';
 
@@ -52,6 +53,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              QuestionTimer(nbSeconds: 10),
               Text(widget.currentQuestion.toString(), style: TextGlobalStyle.buttonStyleWhite),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -93,9 +95,23 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   onClick: () {
                     BlocProvider.of<SocketBloc>(context).add(SocketOnNextQuestion());
                   }
-              )
+              ),
+                 Container(
+          child: Text("1/10", style: TextGlobalStyle.nbQuestionStyle),
+          height: 80,
+          width: 120,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+            border: Border.all(
+              color: Colors.white,
+              width: 2,
+            ),
+            color: blue60,
+          ),
+        )
             ],
           );
   }
 }
-
