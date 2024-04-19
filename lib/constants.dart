@@ -74,6 +74,20 @@ class TextGlobalStyle {
     height: 1,
     color:  Colors.white,
   );
+
+  static const TextStyle questionTimerStyle = TextStyle(
+    fontFamily: 'Luckiest',
+    fontSize: 48,
+    height: 1,
+    color:  Colors.white,
+  );
+
+  static const TextStyle nbQuestionStyle = TextStyle(
+    fontFamily: 'Luckiest',
+    fontSize: 32,
+    height: 1,
+    color:  Colors.white,
+  );
 }
 
 
