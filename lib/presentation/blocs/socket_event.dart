@@ -15,6 +15,12 @@ class SocketOnJoin extends SocketEvent {
   SocketOnJoin(this.roomName, this.userName, this.avatar);
 }
 
+class SocketOnAnswerQuestion extends SocketEvent {
+  final String answer;
+  final int currentQuestion;
+  SocketOnAnswerQuestion( this.answer, this.currentQuestion);
+}
+
 class SocketOnCreation extends SocketEvent {
   final String typeCreation;
   final String userName;
@@ -39,10 +45,15 @@ class SocketOnLaunchGame extends SocketEvent {
   SocketOnLaunchGame(this.room);
 }
 
+class SocketOnNextQuestion extends SocketEvent {
+  SocketOnNextQuestion();
+}
+
 class SocketOnQuestion extends SocketEvent {
   final Question question;
   final bool creator;
-  SocketOnQuestion(this.question, this.creator);
+  final int currentQuestion;
+  SocketOnQuestion(this.question, this.creator, this.currentQuestion);
 }
 
 class SocketOnConnect extends SocketEvent {}

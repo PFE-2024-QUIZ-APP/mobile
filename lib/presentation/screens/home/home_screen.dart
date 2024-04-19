@@ -34,10 +34,10 @@ class HomeScreen extends StatelessWidget {
               return Text('Socket error: ${state.error}');
             } else if (state is SocketRoomCreated) {
               return SafeArea(child: CreateRoom());
-            }else if(state is SocketLaunchGame) {
+            }else if(state is SocketLaunchTimer) {
               return const Timer();
             }else if(state is SocketQuestion){
-              return QuestionWidget(question:state.Question);
+              return QuestionWidget(question:state.Question, currentQuestion: state.currentQuestion,);
           }else {
               return const SafeArea(child: CreateUser());
             }
