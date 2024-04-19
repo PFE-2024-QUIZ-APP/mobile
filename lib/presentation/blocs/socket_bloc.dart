@@ -17,6 +17,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnCreateRoom>(_onCreateRoom);
    on<SocketOnDisconnect>(_onDisconnected);
    on<SocketOnLaunchGame>(_onLaunchGame);
+   on<SocketOnChangeTheme>(_onChangeTheme);
    on<SocketOnQuestion>(_onQuestion);
 
    add(SocketOnConnect());
@@ -34,6 +35,16 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       emit(SocketError(e.toString()));
     }
   }
+
+   void _onChangeTheme(SocketOnChangeTheme event, Emitter<SocketState> emit) async {
+     try {
+       print('change theme');
+       print(event.uidQuizz);
+       socket?.emit('editRoom', {event.uidQuizz});
+     } catch (e) {
+       emit(SocketError(e.toString()));
+     }
+   }
 
   void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
     try {
@@ -59,6 +70,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    void _onCreateRoom(SocketOnCreateRoom event, Emitter<SocketState> emit) async {
      try {
        socket?.emit('createRoom', {event.userName, event.avatar});
+       _setupSocketListeners();
        // Peut être mettre un loader ici pour attendre la réponse du serveur
        print('create room');
      } catch (e) {

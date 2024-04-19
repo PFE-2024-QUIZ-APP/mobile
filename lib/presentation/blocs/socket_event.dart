@@ -28,6 +28,12 @@ class SocketOnCreateRoom extends SocketEvent {
   SocketOnCreateRoom( this.userName, this.avatar);
 }
 
+class SocketOnChangeTheme extends SocketEvent {
+  final String uidQuizz;
+  SocketOnChangeTheme(this.uidQuizz);
+}
+
+
 class SocketOnLaunchGame extends SocketEvent {
   final String room;
   SocketOnLaunchGame(this.room);

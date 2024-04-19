@@ -83,9 +83,6 @@ class CreateUserState extends State<CreateUser> {
                             BlocProvider.of<SocketBloc>(context).add(
                                 SocketOnCreateRoom(_userNameController.text,
                                     _avatarList.indexOf(_currentAvatar) + 1));
-                            BlocProvider.of<SocketBloc>(context).add(
-                                SocketOnCreation(
-                                    "create", _userNameController.text, _avatarList.indexOf(_currentAvatar) + 1));
                           }
                         },
                       ),
