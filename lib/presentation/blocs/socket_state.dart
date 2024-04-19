@@ -57,8 +57,9 @@ class SocketQuestion extends SocketState {
 
 
 class SocketLaunchGame extends SocketState {
-  final Question;
-  SocketLaunchGame(this.Question);
+  final Question question;
+  final bool creator;
+  SocketLaunchGame(this.question, this.creator);
   @override
   List<Object> get props => [Question];
 }

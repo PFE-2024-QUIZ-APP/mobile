@@ -16,8 +16,7 @@ class RoomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SocketBloc, SocketState>(builder: (context, state) {
       if (state is SocketJoined) {
-        return Expanded(
-            child: Column(children: [
+        return Column(children: [
           Stack(children: [
             Container(
                 decoration: const BoxDecoration(
@@ -65,7 +64,7 @@ class RoomScreen extends StatelessWidget {
                 BlocProvider.of<SocketBloc>(context).add(SocketOnLaunchGame(state.roomName));
               }
           )
-        ]));
+        ]);
       } else {
         return const Text('Socket error: ');
       }

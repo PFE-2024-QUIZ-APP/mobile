@@ -48,7 +48,6 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
       emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
-      _setupSocketListeners();
       print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
@@ -59,7 +58,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    void _onCreateRoom(SocketOnCreateRoom event, Emitter<SocketState> emit) async {
      try {
        socket?.emit('createRoom', {event.uidQuizz, event.userName, event.avatar});
-       emit(SocketRoomCreated(event.uidQuizz, event.userName, event.avatar));
+       // Peut être mettre un loader ici pour attendre la réponse du serveur
        print('create room');
      } catch (e) {
        emit(SocketError(e.toString()));
@@ -79,7 +78,6 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onLaunchGame(SocketOnLaunchGame event, Emitter<SocketState> emit) async {
     try {
       socket?.emit('startGame', event.room);
-      // emit(SocketLaunchGame());
       print('launch game');
     } catch (e) {
       emit(SocketError(e.toString()));
@@ -101,13 +99,17 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
      });
 
      socket?.on('startGame', (data) {
-       print(data);
+       print(data["creator"]);
+       print(socket?.id);
        print('game started');
+       var creator = data["creator"] == socket?.id;
        var question = Question.fromMap(data["question"]);
-       emit(SocketLaunchGame(question));
+       emit(SocketLaunchGame(question, creator));
      });
 
-     // You can listen to more events here
+     socket?.on('roomNotFound', (data) {
+       print(data);
+     });
    }
 
 

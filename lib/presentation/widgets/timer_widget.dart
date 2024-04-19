@@ -57,8 +57,8 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
 
 
     if (socketState is SocketLaunchGame) { // Assuming SocketLoaded is a valid state
-      print(socketState.Question);
-      socketBloc.add(SocketOnQuestion(socketState.Question));
+      print(socketState.question);
+      socketBloc.add(SocketOnQuestion(socketState.question, socketState.creator));
     } else {
       // Handle other states or show an error
     }

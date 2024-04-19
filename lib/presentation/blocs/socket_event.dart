@@ -36,7 +36,8 @@ class SocketOnLaunchGame extends SocketEvent {
 
 class SocketOnQuestion extends SocketEvent {
   final Question question;
-  SocketOnQuestion(this.question);
+  final bool creator;
+  SocketOnQuestion(this.question, this.creator);
 }
 
 class SocketOnConnect extends SocketEvent {}
