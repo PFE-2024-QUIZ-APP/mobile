@@ -48,6 +48,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
       emit(SocketRoomCreated(event.typeCreation, event.userName, event.avatar));
+      _setupSocketListeners();
       print('creation');
     } catch (e) {
       emit(SocketError(e.toString()));
