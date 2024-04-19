@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzapppfe/data/models/questions.dart';
 import 'package:quizzapppfe/presentation/widgets/answer_button_widget.dart';
+import 'package:quizzapppfe/presentation/widgets/button_widget.dart';
 
 import '../../constants.dart';
+import '../blocs/socket_bloc.dart';
 
 class QuestionWidget extends StatefulWidget {
   final Question question;
+  final int currentQuestion;
 
   const QuestionWidget(
       {super.key,
-      required this.question});
+      required this.question, required this.currentQuestion});
 
   @override
   State<QuestionWidget> createState() => _QuestionWidgetState();
@@ -25,6 +29,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         selectedAnswerIndex = index;
         answered = true; // Set to true to disable further interaction
       });
+      BlocProvider.of<SocketBloc>(context).add(
+          SocketOnAnswerQuestion(widget.question.responses[index], widget.currentQuestion)
+      );
     }
   }
 
@@ -45,6 +52,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(widget.currentQuestion.toString(), style: TextGlobalStyle.buttonStyleWhite),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
@@ -77,6 +85,14 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         ),
                   ]),
                 ),
+              ),
+              // On affichera se bouton soit à la fin du timer soit quand tout le monde à repondu
+              ButtonFriizz(
+                  text: 'Suivant',
+                  primary: true,
+                  onClick: () {
+                    BlocProvider.of<SocketBloc>(context).add(SocketOnNextQuestion());
+                  }
               )
             ],
           );

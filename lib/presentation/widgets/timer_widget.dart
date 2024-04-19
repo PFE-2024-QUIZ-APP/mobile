@@ -56,9 +56,9 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
     final socketState = socketBloc.state;
 
 
-    if (socketState is SocketLaunchGame) { // Assuming SocketLoaded is a valid state
+    if (socketState is SocketLaunchTimer) { // Assuming SocketLoaded is a valid state
       print(socketState.question);
-      socketBloc.add(SocketOnQuestion(socketState.question, socketState.creator));
+      socketBloc.add(SocketOnQuestion(socketState.question, socketState.creator, socketState.currentQuestion));
     } else {
       // Handle other states or show an error
     }
@@ -71,22 +71,17 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: BackgroundGradient,
-        ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _animationController!,
-            builder: (context, child) => Opacity(
-              opacity: _opacityAnimation!.value,
-              child: Transform.scale(
-                scale: _scaleAnimation!.value,
-                child: Text(
-                  '$_currentNumber',
-                  style: TextGlobalStyle.timerStyle,
-                ),
+    return Container(
+      child: Center(
+        child: AnimatedBuilder(
+          animation: _animationController!,
+          builder: (context, child) => Opacity(
+            opacity: _opacityAnimation!.value,
+            child: Transform.scale(
+              scale: _scaleAnimation!.value,
+              child: Text(
+                '$_currentNumber',
+                style: TextGlobalStyle.timerStyle,
               ),
             ),
           ),

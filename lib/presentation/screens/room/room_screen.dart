@@ -18,14 +18,13 @@ class RoomScreen extends StatefulWidget {
 
 class _RoomScreenState extends State<RoomScreen> {
   bool isSettings = false;
-
   String uidQuizz = "";
-
   get state => null;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketBloc, SocketState>(builder: (context, state) {
+      print(state.idUser);
       if (state is SocketJoined) {
         return Column(children: [
           Padding(
@@ -74,16 +73,20 @@ class _RoomScreenState extends State<RoomScreen> {
                     'Rejoins moi sur Friizz pour jouer ensemble, code : ${state.roomName}');
               }),
           const SizedBox(height: 24),
-          ButtonFriizz(
-              icon: play,
-              text: "Démarrer",
-              primary: false,
-              onClick: () {
-                BlocProvider.of<SocketBloc>(context).add(SocketOnLaunchGame(state.roomName));
-              }
-          ),
+          state.users[0]["id"] == state.idUser
+              ? ButtonFriizz(
+                icon: play,
+                text: "Démarrer",
+                primary: false,
+                onClick: () {
+                  BlocProvider.of<SocketBloc>(context).add(
+                      SocketOnLaunchGame(state.roomName));
+                }
+              )
+             : Container(),
           const SizedBox(height: 24),
-          Row(
+          state.users[0]["id"] == state.idUser
+           ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
@@ -111,6 +114,7 @@ class _RoomScreenState extends State<RoomScreen> {
               )
             ],
           )
+              : Container()
         ]);
       } else {
         return const Text('Socket error: ');
