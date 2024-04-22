@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:quizzapppfe/constants.dart';
+import 'package:com.friizzz.app/constants.dart';
 
 class AnswerBtn extends StatelessWidget {
   final String text; // text to display on the button

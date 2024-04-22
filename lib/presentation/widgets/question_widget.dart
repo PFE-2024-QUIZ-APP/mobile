@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizzapppfe/data/models/questions.dart';
-import 'package:quizzapppfe/presentation/widgets/answer_button_widget.dart';
+import 'package:com.friizzz.app/data/models/questions.dart';
+import 'package:com.friizzz.app/presentation/widgets/answer_button_widget.dart';
 
 import '../../constants.dart';
 

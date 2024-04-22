@@ -1,10 +1,10 @@
 // socket_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quizzapppfe/presentation/screens/creation/create_room_screen.dart';
-import 'package:quizzapppfe/presentation/screens/creation/create_user_screen.dart';
-import 'package:quizzapppfe/presentation/screens/room/room_screen.dart';
-import 'package:quizzapppfe/presentation/widgets/timer_widget.dart';
+import 'package:com.friizzz.app/presentation/screens/creation/create_room_screen.dart';
+import 'package:com.friizzz.app/presentation/screens/creation/create_user_screen.dart';
+import 'package:com.friizzz.app/presentation/screens/room/room_screen.dart';
+import 'package:com.friizzz.app/presentation/widgets/timer_widget.dart';
 
 import '../../../constants.dart';
 import '../../blocs/socket_bloc.dart';

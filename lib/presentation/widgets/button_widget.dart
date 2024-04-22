@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quizzapppfe/constants.dart';
+import 'package:com.friizzz.app/constants.dart';
 
 class ButtonFriizz extends StatelessWidget {
   final String text; // text to display on the button

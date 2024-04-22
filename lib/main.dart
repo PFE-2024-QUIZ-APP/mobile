@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quizzapppfe/presentation/blocs/quizz_theme.dart';
-import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
-import 'package:quizzapppfe/presentation/screens/home/home_screen.dart';
+import 'package:com.friizzz.app/presentation/blocs/quizz_theme.dart';
+import 'package:com.friizzz.app/presentation/blocs/socket_bloc.dart';
+import 'package:com.friizzz.app/presentation/screens/home/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures widget binding is initialized

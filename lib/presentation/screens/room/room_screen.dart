@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quizzapppfe/presentation/blocs/quizz_theme.dart';
-import 'package:quizzapppfe/presentation/widgets/room_players_list_widget.dart';
+import 'package:com.friizzz.app/presentation/blocs/quizz_theme.dart';
+import 'package:com.friizzz.app/presentation/widgets/room_players_list_widget.dart';
 import 'package:share/share.dart';
 
 

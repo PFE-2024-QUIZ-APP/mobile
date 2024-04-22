@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quizzapppfe/constants.dart';
-import 'package:quizzapppfe/presentation/blocs/socket_bloc.dart';
+import 'package:com.friizzz.app/constants.dart';
+import 'package:com.friizzz.app/presentation/blocs/socket_bloc.dart';
 
 import '../../blocs/quizz_theme.dart';
 import '../../widgets/LogoHeader.dart';
