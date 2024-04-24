@@ -13,9 +13,10 @@ part 'socket_state.dart';
 class SocketBloc extends Bloc<SocketEvent, SocketState> {
    IO.Socket? socket;
    String? idUser;
+   List? players;
 
 
-  SocketBloc() : super(SocketInitial("")) {
+  SocketBloc() : super(SocketInitial("", [])) {
    on<SocketOnJoin>(_onJoined);
    on<SocketOnAnswerQuestion>(_onAnswerQuestion);
    on<SocketOnConnect>(_onConnect);
@@ -31,32 +32,26 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketConnecting(idUser));
+      emit(SocketConnecting(idUser,players));
       socket = IO.io('http://localhost:3000', <String, dynamic>{
         'transports': ['websocket'],
       });
       _setupSocketListeners();
-      print(idUser);
-      print('idUser');
-      print('connect on localhost:3000');
     } catch (e) {
-      emit(SocketError(idUser,e.toString()));
+      emit(SocketError(idUser,players,e.toString()));
     }
   }
 
    void _onChangeTheme(SocketOnChangeTheme event, Emitter<SocketState> emit) async {
      try {
-       print('change theme');
-       print(event.uidQuizz);
        socket?.emit('editRoom', {event.uidQuizz});
      } catch (e) {
-       emit(SocketError(idUser,e.toString()));
+       emit(SocketError(idUser,players,e.toString()));
      }
    }
 
   void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
     try {
-      print(event.roomName);
       var object = {
         "room": event.roomName,
         "userName": event.userName,
@@ -64,19 +59,17 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       };
       socket?.emit('join', object);
       _setupSocketListeners();
-      print('join');
     } catch (e) {
-      emit(SocketError(idUser,e.toString()));
+      emit(SocketError(idUser,players,e.toString()));
     }
   }
   // Select if it create a room or join a room
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketRoomCreated(idUser,event.userName, event.avatar));
+      emit(SocketRoomCreated(idUser,players,event.userName, event.avatar));
       _setupSocketListeners();
-      print('creation');
     } catch (e) {
-      emit(SocketError(idUser,e.toString()));
+      emit(SocketError(idUser,players,e.toString()));
     }
   }
 
@@ -87,9 +80,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
          "response": event.answer,
        });
        _setupSocketListeners();
-       print('creation');
      } catch (e) {
-       emit(SocketError(idUser,e.toString()));
+       emit(SocketError(idUser,players,e.toString()));
      }
    }
 
@@ -102,69 +94,67 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
        };
        socket?.emit('createRoom', object);
        _setupSocketListeners();
-       // Peut être mettre un loader ici pour attendre la réponse du serveur
-       print('create room');
      } catch (e) {
-       emit(SocketError(idUser,e.toString()));
+       emit(SocketError(idUser,players,e.toString()));
      }
    }
 
   void _onDisconnected(SocketOnDisconnect event, Emitter<SocketState> emit) async {
     try {
       socket?.disconnect();
-      emit(SocketDisconnected(idUser));
-      print('disconnect');
+      emit(SocketDisconnected(idUser,players));
     } catch (e) {
-      emit(SocketError(idUser,e.toString()));
+      emit(SocketError(idUser,players,e.toString()));
     }
   }
 
   void _onLaunchGame(SocketOnLaunchGame event, Emitter<SocketState> emit) async {
     try {
       socket?.emit('nextQuestion');
-      print('launch game');
     } catch (e) {
-      emit(SocketError(idUser,e.toString()));
+      emit(SocketError(idUser,players,e.toString()));
     }
   }
 
    void _onNextQuestion (SocketOnNextQuestion event, Emitter<SocketState> emit) async {
      try {
        socket?.emit('nextQuestion');
-       print('next Question');
      } catch (e) {
-       emit(SocketError(idUser,e.toString()));
+       emit(SocketError(idUser,players,e.toString()));
      }
    }
 
    void _onQuestion(SocketOnQuestion event, Emitter<SocketState> emit) async {
      try {
-       emit(SocketQuestion(idUser,event.question, event.currentQuestion));
+       emit(SocketQuestion(idUser,players, event.question, event.currentQuestion, event.responsesPlayers));
      } catch (e) {
-       emit(SocketError(idUser,e.toString()));
+       emit(SocketError(idUser,players, e.toString()));
      }
    }
 
    void _setupSocketListeners() {
      socket?.on('id', (data) {
-       print(data);
        idUser = data;
-       emit(SocketConnected(idUser));
+       emit(SocketConnected(idUser,players));
      });
 
      socket?.on('roomData', (data) {
-       print(data);
-       emit(SocketJoined(idUser,data["roomId"], data["players"]));
+       players = data["players"];
+       emit(SocketJoined(idUser,players,data["roomId"], data["players"]));
      });
 
      socket?.on('nextQuestion', (data) {
-       print(data["creator"]);
-       print(socket?.id);
-       print('game started');
        var creator = data["creator"] == socket?.id;
        var currentQuestion = data["currentQuestion"];
        var question = Question.fromMap(data["question"]);
-       emit(SocketLaunchTimer(idUser,question, creator,currentQuestion));
+       emit(SocketLaunchTimer(idUser,players,question, creator,currentQuestion));
+     });
+
+     socket?.on('allResponses', (data) {
+       var currentQuestion = data["currentQuestion"];
+       var question = Question.fromMap(data["question"]);
+       var responsesPlayers = data["responsesPlayers"];
+       emit(SocketQuestion(idUser,players,question,currentQuestion,responsesPlayers));
      });
 
      socket?.on('roomNotFound', (data) {

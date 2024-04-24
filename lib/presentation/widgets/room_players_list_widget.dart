@@ -10,6 +10,7 @@ class RoomPlayersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(users);
     return ClipRRect(
       borderRadius: const BorderRadius.all(
         Radius.circular(10),

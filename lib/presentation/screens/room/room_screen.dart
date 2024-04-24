@@ -24,7 +24,6 @@ class _RoomScreenState extends State<RoomScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketBloc, SocketState>(builder: (context, state) {
-      print(state.idUser);
       if (state is SocketJoined) {
         return Column(children: [
           Padding(
