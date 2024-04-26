@@ -20,64 +20,7 @@ class _RoomScreenState extends State<RoomScreen> {
   bool isSettings = false;
   String uidQuizz = "";
   get state => null;
-  List users = [
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    },
-    {
-      "id": 123,
-      "name": "Simon",
-      "avatar": 1,
-      "score": 0,
-      "responses": []
-    }
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +68,7 @@ class _RoomScreenState extends State<RoomScreen> {
                   child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       physics: const BouncingScrollPhysics(),
-                      child: RoomPlayersList(users: users, sortByPoint: true)
+                      child: RoomPlayersList(users: state.users, sortByPoint: true)
                   ),
                 ),
               )

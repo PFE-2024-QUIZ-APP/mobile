@@ -1,6 +1,7 @@
 // socket_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quizzapppfe/presentation/screens/creation/create_room_screen.dart';
 import 'package:quizzapppfe/presentation/screens/creation/create_user_screen.dart';
 import 'package:quizzapppfe/presentation/screens/room/room_screen.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         decoration: const BoxDecoration(
           gradient: BackgroundGradient,
         ),

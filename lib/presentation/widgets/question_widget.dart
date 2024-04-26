@@ -95,24 +95,24 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         timerEnded: state.timerEnded,
                         onTimerEnd: timerEnd,),
                       SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          height: 100 +
-                              (widget.question.responses.length * 100.0),
-                          decoration: BoxDecoration(
-                            color: blue60,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                              children: [
-                                Text(
-                                  widget.question.questionText,
-                                  style: TextGlobalStyle.buttonStyleWhite,
-                                  textAlign: TextAlign.center,
-                                ),
-                                Flexible(
+                      Container(
+                        height: 100 +
+                            (widget.question.responses.length * 100.0),
+                        decoration: BoxDecoration(
+                          color: blue60,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.only(top: 24),
+                        child: Column(
+                            children: [
+                              Text(
+                                widget.question.questionText,
+                                style: TextGlobalStyle.buttonStyleWhite,
+                                textAlign: TextAlign.center,
+                              ),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceEvenly,
@@ -132,8 +132,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                                     }).toList(),
                                   ),
                                 ),
-                              ]),
-                        ),
+                              ),
+                            ]),
                       ),
                       // On affichera se bouton soit à la fin du timer soit quand tout le monde à repondu
                       SizedBox(height: 20),
@@ -147,7 +147,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                                 SocketOnNextQuestion());
                           }
                       )
-                          : Text("En attente de l'hôte ...", style: TextGlobalStyle.buttonStyleWhite,),
+                          : timerEnded ? Text("En attente de l'hôte ...", style: TextGlobalStyle.buttonStyleWhite,) : Container(),
                       Spacer(),
                       Container(
                         child: Text("${widget.currentQuestion + 1}/10",
