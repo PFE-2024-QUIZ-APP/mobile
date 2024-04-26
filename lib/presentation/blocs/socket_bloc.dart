@@ -35,8 +35,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
     try {
       emit(SocketConnecting(idUser,players));
-      // socket = IO.io('https://friizzz-2ee66994f1ef.herokuapp.com', <String, dynamic>{
-      socket = IO.io('http://localhost:3001', <String, dynamic>{
+      socket = IO.io('https://friizzz-2ee66994f1ef.herokuapp.com', <String, dynamic>{
+      // socket = IO.io('http://localhost:3001', <String, dynamic>{
       'transports': ['websocket'],
       });
       _setupSocketListeners();

@@ -53,6 +53,7 @@ class _CreateRoomState extends State<CreateRoom> {
                             primary: true,
                             icon: play,
                             onClick: () {
+                              print(_roomNameController.text);
                               if (state is! SocketJoined &&
                                   _roomNameController.text.isNotEmpty) {
                                 BlocProvider.of<SocketBloc>(context).add(
@@ -103,6 +104,7 @@ class _CreateRoomState extends State<CreateRoom> {
                                   ),
                                   child: TextField(
                                     controller: _roomNameController,
+                                    textCapitalization: TextCapitalization.characters,
                                     decoration: const InputDecoration(
                                       hintText: 'Entre un nom de room',
                                       border: InputBorder.none,

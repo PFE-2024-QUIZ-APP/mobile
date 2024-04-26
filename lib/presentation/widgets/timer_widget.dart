@@ -15,7 +15,7 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   Animation<double>? _scaleAnimation;
   Animation<double>? _opacityAnimation;
-  int _currentNumber = 5;
+  int _currentNumber = 3;
 
 
   @override

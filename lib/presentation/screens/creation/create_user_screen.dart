@@ -28,14 +28,19 @@ class CreateUserState extends State<CreateUser> {
     avatar_7,
     avatar_8,
   ];
+  bool _keyboardVisible = false;
+
 
   String _currentAvatar = avatar_1;
+  FocusNode _focus = FocusNode();
+
 
   @override
   void initState() {
     _userNameController = TextEditingController();
     super.initState();
     BlocProvider.of<QuizzBloc>(context).add(LoadItems());
+    _focus.addListener(_onFocusChange);
 
     // Pre-caching avatar images
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -55,6 +60,19 @@ class CreateUserState extends State<CreateUser> {
     setState(() {
       _currentAvatar = _avatarList[(_avatarList.indexOf(_currentAvatar) + increment) % _avatarList.length];
     });
+  }
+
+  void _onFocusChange() {
+    print('Focus: ${_focus.hasFocus}');
+    if(_focus.hasFocus){
+      setState(() {
+        _keyboardVisible = true;
+      });
+    }else{
+      setState(() {
+        _keyboardVisible = false;
+      });
+    }
   }
 
 
@@ -123,7 +141,9 @@ class CreateUserState extends State<CreateUser> {
                         style: TextGlobalStyle.buttonStyleWhite,
                         textAlign: TextAlign.center,
                       ),
-                      Padding(
+                      _keyboardVisible
+                          ? Container()
+                          : Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -158,6 +178,7 @@ class CreateUserState extends State<CreateUser> {
                           ],
                         ),
                       ),
+
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -172,6 +193,7 @@ class CreateUserState extends State<CreateUser> {
                         ),
                         child: TextField(
                           controller: _userNameController,
+                          focusNode: _focus,
                           decoration: const InputDecoration(
                             hintText: 'Entre un pseudo',
                             border: InputBorder.none,

@@ -26,7 +26,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   int? selectedAnswerIndex;
   bool answered = false; // To track if the question has been answered
   bool timerEnded = false;
-  int timerDuration = 10;
+  int timerDuration = 15;
 
   void handleAnswerClick(int index) {
     if (!answered) { // Check if the question has already been answered
@@ -147,7 +147,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                                 SocketOnNextQuestion());
                           }
                       )
-                          : Container(),
+                          : Text("En attente de l'hôte ...", style: TextGlobalStyle.buttonStyleWhite,),
                       Spacer(),
                       Container(
                         child: Text("${widget.currentQuestion + 1}/10",
