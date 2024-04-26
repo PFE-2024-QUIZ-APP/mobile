@@ -15,7 +15,6 @@ class RoomPlayersList extends StatelessWidget {
     print(sortedUsers);
     if (sortByPoint) {
       sortedUsers.sort((a, b) {
-        print(a["score"]);
         int scoreA = a["score"] ?? 0; // Ensure score is treated as 0 if null
         int scoreB = b["score"] ?? 0; // Ensure score is treated as 0 if null
         return scoreB.compareTo(scoreA);
@@ -28,6 +27,7 @@ class RoomPlayersList extends StatelessWidget {
       ),
       child: ListView.separated(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: sortedUsers.length,
         itemBuilder: (context, index) {
           final user = sortedUsers[index];

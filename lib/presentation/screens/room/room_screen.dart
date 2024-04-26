@@ -20,6 +20,64 @@ class _RoomScreenState extends State<RoomScreen> {
   bool isSettings = false;
   String uidQuizz = "";
   get state => null;
+  List users = [
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    },
+    {
+      "id": 123,
+      "name": "Simon",
+      "avatar": 1,
+      "score": 0,
+      "responses": []
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,35 +91,46 @@ class _RoomScreenState extends State<RoomScreen> {
               style: TextGlobalStyle.buttonStyleWhite,
             ),
           ),
-          if (isSettings) ListTheme(context) else Stack(children: [
-            Container(
-                decoration: const BoxDecoration(
-                    color: blue60,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Spacer(),
-                    Text(
-                      '${state.users.length} joueurs',
-                      style: TextGlobalStyle.buttonStyleWhite,
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: Image.asset(close),
-                      onPressed: () {
-                        BlocProvider.of<SocketBloc>(context)
-                            .add(SocketOnDisconnect());
-                      },
-                    ),
-                  ],
-                )),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              child: RoomPlayersList(users: state.users),
-            ),
-          ]),
+          if (isSettings) ListTheme(context) else Container(
+            decoration: const BoxDecoration(
+                color: blue60,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Column(children: [
+              Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      Text(
+                        '${state.users.length} joueurs',
+                        style: TextGlobalStyle.buttonStyleWhite,
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: Image.asset(close),
+                        onPressed: () {
+                          BlocProvider.of<SocketBloc>(context)
+                              .add(SocketOnDisconnect());
+                        },
+                      ),
+                    ],
+                  )),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: const BouncingScrollPhysics(),
+                      child: RoomPlayersList(users: users, sortByPoint: true)
+                  ),
+                ),
+              )
+            ]),
+          ),
           const Spacer(),
           ButtonFriizz(
               icon: share,
@@ -148,27 +217,30 @@ class _RoomScreenState extends State<RoomScreen> {
                       if (state is QuizzThemeLoading) {
                         return CircularProgressIndicator();
                       } else if (state is QuizzThemeLoaded) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: state.quizzes.length,
-                          itemBuilder: (context, index) {
-                            final item = state.quizzes[index];
-                            bool selected = uidQuizz == item.uid;
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 20),
-                              child: ButtonFriizz(
-                                  text: item.name,
-                                  primary: selected ? false : true,
-                                  onClick: () {
-                                    HapticFeedback.lightImpact();
-                                    setState(() {
-                                      uidQuizz = item.uid;
-                                    });
-                                    BlocProvider.of<SocketBloc>(context).add(
-                                        SocketOnChangeTheme(item.uid));
-                                  }),
-                            );
-                          },
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.quizzes.length,
+                            itemBuilder: (context, index) {
+                              final item = state.quizzes[index];
+                              bool selected = uidQuizz == item.uid;
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 20),
+                                child: ButtonFriizz(
+                                    text: item.name,
+                                    primary: selected ? false : true,
+                                    onClick: () {
+                                      HapticFeedback.lightImpact();
+                                      setState(() {
+                                        uidQuizz = item.uid;
+                                      });
+                                      BlocProvider.of<SocketBloc>(context).add(
+                                          SocketOnChangeTheme(item.uid));
+                                    }),
+                              );
+                            },
+                          ),
                         );
                       } else if (state is QuizzThemeError) {
                         return Text('Error fetching items');
