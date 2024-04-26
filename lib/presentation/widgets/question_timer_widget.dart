@@ -8,8 +8,9 @@ class QuestionTimer extends StatefulWidget {
   final int nbSeconds;
   final Function onTimerEnd;
   final int currentQuestion;
+  final bool timerEnded;
 
-  const QuestionTimer({super.key, required this.nbSeconds, required this.onTimerEnd, required this.currentQuestion});
+  const QuestionTimer({super.key, required this.nbSeconds, required this.onTimerEnd, required this.currentQuestion,  this.timerEnded = false});
 
   @override
   State<QuestionTimer> createState() => _TimerState();
@@ -20,6 +21,22 @@ class _TimerState extends State<QuestionTimer>
   AnimationController? _animationController;
 
   int _currentNumber = 5;
+
+  @override
+  void didUpdateWidget(covariant QuestionTimer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.timerEnded && _animationController!.isAnimating) {
+      _animationController!.stop();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          widget.onTimerEnd();
+        }
+      });
+      setState(() {
+        _currentNumber = 0;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -48,7 +65,10 @@ class _TimerState extends State<QuestionTimer>
       }
     });
 
-    _animationController!.forward();
+    if (!widget.timerEnded) {
+      _animationController!.forward();
+    }
+
   }
 
 

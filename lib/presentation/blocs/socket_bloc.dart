@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
@@ -27,14 +28,16 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
    on<SocketOnChangeTheme>(_onChangeTheme);
    on<SocketOnQuestion>(_onQuestion);
    on<SocketOnNextQuestion>(_onNextQuestion);
+   on<SocketOnRestart>(_onRestart);
    add(SocketOnConnect());
 }
 
   void _onConnect(SocketOnConnect event, Emitter<SocketState> emit) async {
     try {
       emit(SocketConnecting(idUser,players));
-      socket = IO.io('http://localhost:3000', <String, dynamic>{
-        'transports': ['websocket'],
+      // socket = IO.io('https://friizzz-2ee66994f1ef.herokuapp.com', <String, dynamic>{
+      socket = IO.io('http://localhost:3001', <String, dynamic>{
+      'transports': ['websocket'],
       });
       _setupSocketListeners();
     } catch (e) {
@@ -50,23 +53,36 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
      }
    }
 
-  void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
-    try {
-      var object = {
-        "room": event.roomName,
-        "userName": event.userName,
-        "avatar": event.avatar
-      };
-      socket?.emit('join', object);
-      _setupSocketListeners();
-    } catch (e) {
-      emit(SocketError(idUser,players,e.toString()));
-    }
-  }
+   void _onJoined(SocketOnJoin event, Emitter<SocketState> emit) async {
+     Completer<void> completer = Completer<void>(); // Create a new completer
+
+     try {
+       var object = {
+         "room": event.roomName,
+         "userName": event.userName,
+         "avatar": event.avatar
+       };
+
+       // Emit with an acknowledgement callback
+       socket?.emitWithAck('join', object, ack: (response) {
+         if (response["status"] == "notFound") {
+           emit(SocketRoomCreated(idUser, players, event.userName, event.avatar, "Mauvaise Room")); // Emitting an error state
+         }
+         completer.complete(); // Complete the completer when callback is called
+       });
+
+       await completer.future; // Wait for the completer to complete
+     } catch (e) {
+       emit(SocketError(idUser, players, e.toString())); // Emit error if an exception occurs
+       if (!completer.isCompleted) {
+         completer.complete(); // Ensure to complete the completer even in case of an error
+       }
+     }
+   }
   // Select if it create a room or join a room
   void _onCreation(SocketOnCreation event, Emitter<SocketState> emit) async {
     try {
-      emit(SocketRoomCreated(idUser,players,event.userName, event.avatar));
+      emit(SocketRoomCreated(idUser,players,event.userName, event.avatar,""));
       _setupSocketListeners();
     } catch (e) {
       emit(SocketError(idUser,players,e.toString()));
@@ -116,6 +132,14 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
   }
 
+   void _onRestart(SocketOnRestart event, Emitter<SocketState> emit) async {
+     try {
+       socket?.emit('restart');
+     } catch (e) {
+       emit(SocketError(idUser,players,e.toString()));
+     }
+   }
+
    void _onNextQuestion (SocketOnNextQuestion event, Emitter<SocketState> emit) async {
      try {
        socket?.emit('nextQuestion');
@@ -126,7 +150,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
    void _onQuestion(SocketOnQuestion event, Emitter<SocketState> emit) async {
      try {
-       emit(SocketQuestion(idUser,players, event.question, event.currentQuestion, event.responsesPlayers));
+       emit(SocketQuestion(idUser,players, event.question, event.currentQuestion, event.responsesPlayers, false,false));
      } catch (e) {
        emit(SocketError(idUser,players, e.toString()));
      }
@@ -154,7 +178,23 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
        var currentQuestion = data["currentQuestion"];
        var question = Question.fromMap(data["question"]);
        var responsesPlayers = data["responsesPlayers"];
-       emit(SocketQuestion(idUser,players,question,currentQuestion,responsesPlayers));
+       emit(SocketQuestion(idUser,players,question,currentQuestion,responsesPlayers,false,false));
+     });
+
+     socket?.on('timerEnded', (data) {
+       print('timerEnded');
+       var currentQuestion = data["currentQuestion"];
+       var question = Question.fromMap(data["question"]);
+       var responsesPlayers = data["responsesPlayers"];
+       emit(SocketQuestion(idUser,players,question,currentQuestion,responsesPlayers,true,false));
+     });
+
+     socket?.on('endGame', (data) {
+       print('endGame');
+       var currentQuestion = data["currentQuestion"];
+       var question = Question.fromMap(data["question"]);
+       var players = data["players"];
+       emit(SocketQuestion(idUser,players,question,currentQuestion,players,true,true));
      });
 
      socket?.on('roomNotFound', (data) {

@@ -47,10 +47,12 @@ class SocketError extends SocketState {
   List<Object> get props => [error];
 }
 
+
 class SocketRoomCreated extends SocketState {
   final String userName;
   final int avatar;
-  SocketRoomCreated(String? idUser,List? players,this.userName, this.avatar, ):super(idUser, players);
+  final String error;
+  SocketRoomCreated(String? idUser,List? players,this.userName, this.avatar, this.error):super(idUser, players);
   @override
   List<Object> get props => [userName, avatar];
 }
@@ -59,7 +61,9 @@ class SocketQuestion extends SocketState {
   final Question;
   final List responsesPlayers;
   final int currentQuestion;
-  SocketQuestion(String? idUser,List? players, this.Question, this.currentQuestion, this.responsesPlayers) : super(idUser, players);
+  final bool timerEnded ;
+  final bool endGame;
+  SocketQuestion(String? idUser,List? players, this.Question, this.currentQuestion, this.responsesPlayers, this.timerEnded, this.endGame) : super(idUser, players);
   @override
   List<Object> get props => [Question];
 }

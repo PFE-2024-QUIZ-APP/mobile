@@ -28,6 +28,7 @@ class SocketOnCreation extends SocketEvent {
   SocketOnCreation(this.typeCreation, this.userName, this.avatar);
 }
 
+
 class SocketOnCreateRoom extends SocketEvent {
   final String userName;
   final int avatar;
@@ -47,6 +48,10 @@ class SocketOnLaunchGame extends SocketEvent {
 
 class SocketOnNextQuestion extends SocketEvent {
   SocketOnNextQuestion();
+}
+
+class SocketOnRestart extends SocketEvent {
+  SocketOnRestart();
 }
 
 class SocketOnQuestion extends SocketEvent {
