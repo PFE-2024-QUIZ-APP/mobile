@@ -6,9 +6,11 @@ import '../blocs/socket_bloc.dart';
 
 class QuestionTimer extends StatefulWidget {
   final int nbSeconds;
-  final Function? onTimerEnd;
+  final Function onTimerEnd;
+  final int currentQuestion;
+  final bool timerEnded;
 
-  const QuestionTimer({super.key, required this.nbSeconds, this.onTimerEnd});
+  const QuestionTimer({super.key, required this.nbSeconds, required this.onTimerEnd, required this.currentQuestion,  this.timerEnded = false});
 
   @override
   State<QuestionTimer> createState() => _TimerState();
@@ -19,6 +21,22 @@ class _TimerState extends State<QuestionTimer>
   AnimationController? _animationController;
 
   int _currentNumber = 5;
+
+  @override
+  void didUpdateWidget(covariant QuestionTimer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.timerEnded && _animationController!.isAnimating) {
+      _animationController!.stop();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          widget.onTimerEnd();
+        }
+      });
+      setState(() {
+        _currentNumber = 0;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -41,28 +59,18 @@ class _TimerState extends State<QuestionTimer>
           _animationController!.reset();
           _animationController!.forward();
         } else {
-          // Timer has reached zero, trigger action here
-          _onTimerEnd();
+
+          widget.onTimerEnd();
         }
       }
     });
 
-    _animationController!.forward();
-  }
-
-  void _onTimerEnd() {
-    final socketBloc = BlocProvider.of<SocketBloc>(context);
-    final socketState = socketBloc.state;
-
-    if (socketState is SocketLaunchGame) {
-      // Assuming SocketLoaded is a valid state
-      print(socketState.question);
-      socketBloc
-          .add(SocketOnQuestion(socketState.question, socketState.creator));
-    } else {
-      // Handle other states or show an error
+    if (!widget.timerEnded) {
+      _animationController!.forward();
     }
+
   }
+
 
   @override
   void dispose() {
@@ -79,16 +87,18 @@ class _TimerState extends State<QuestionTimer>
         color: purple,
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
-      alignment: Alignment.center,
-      child: Center(
-        child: AnimatedBuilder(
-          animation: _animationController!,
-          builder: (context, child) => Text(
-              '$_currentNumber',
-              style: TextGlobalStyle.questionTimerStyle
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+         AnimatedBuilder(
+              animation: _animationController!,
+              builder: (context, child) => Text(
+                  '$_currentNumber',
+                  style: TextGlobalStyle.questionTimerStyle
+                ),
             ),
-
-        ),
+        ],
       ),
     );
   }

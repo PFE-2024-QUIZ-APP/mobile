@@ -28,7 +28,13 @@ class _CreateRoomState extends State<CreateRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SocketBloc, SocketState>(builder: (context, state) {
+    return BlocConsumer<SocketBloc, SocketState>(
+      listener: (context, state) {
+        if (state is SocketRoomCreated) {
+          print('New State');
+        }
+      },
+        builder: (context, state) {
       if (state is SocketRoomCreated) {
           return Stack(
             children: [
@@ -113,7 +119,8 @@ class _CreateRoomState extends State<CreateRoom> {
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  Text(state.error, style: TextGlobalStyle.buttonStyleWhite,),
                 ],
               ),
             ],

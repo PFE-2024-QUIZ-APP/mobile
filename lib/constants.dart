@@ -31,6 +31,7 @@ const LinearGradient BackgroundGradient = LinearGradient(
 );
 
 const Color purple = Color(0xFF8B85C1);
+const Color darkPurple = Color(0xFF67629A);
 const Color blue = Color(0xFF094D92);
 const Color blue60 = Color(0x99094D92);
 const Color lightBlue = Color(0xFF84A6C8);

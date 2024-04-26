@@ -28,6 +28,7 @@ class SocketOnCreation extends SocketEvent {
   SocketOnCreation(this.typeCreation, this.userName, this.avatar);
 }
 
+
 class SocketOnCreateRoom extends SocketEvent {
   final String userName;
   final int avatar;
@@ -49,11 +50,16 @@ class SocketOnNextQuestion extends SocketEvent {
   SocketOnNextQuestion();
 }
 
+class SocketOnRestart extends SocketEvent {
+  SocketOnRestart();
+}
+
 class SocketOnQuestion extends SocketEvent {
   final Question question;
   final bool creator;
   final int currentQuestion;
-  SocketOnQuestion(this.question, this.creator, this.currentQuestion);
+  final List responsesPlayers;
+  SocketOnQuestion(this.question, this.creator, this.currentQuestion, this.responsesPlayers);
 }
 
 class SocketOnConnect extends SocketEvent {}
